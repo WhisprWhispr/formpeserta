@@ -16,6 +16,8 @@ const port = process.env.PORT || 8081;
 app.use(cors());
 app.use(express.json());
 
+const router = express.Router();
+
 // Configure Cloudinary
 cloudinary.config({ 
     cloud_name: 'ihkusgsc', 
@@ -58,7 +60,7 @@ const uploadToCloudinary = (buffer, folder) => {
 };
 
 // API Endpoint for Registration
-app.post('/register', upload.fields([
+router.post('/register', upload.fields([
     { name: 'bukti_hmps_if', maxCount: 1 },
     { name: 'bukti_upu', maxCount: 1 },
     { name: 'pas_foto', maxCount: 1 },
@@ -109,7 +111,7 @@ app.post('/register', upload.fields([
 });
 
 // API Endpoint for Panitia Registration
-app.post('/register-panitia', upload.fields([
+router.post('/register-panitia', upload.fields([
     { name: 'bukti_hmps_if', maxCount: 1 },
     { name: 'bukti_upu', maxCount: 1 },
     { name: 'pas_foto', maxCount: 1 },
@@ -160,7 +162,7 @@ app.post('/register-panitia', upload.fields([
 });
 
 // API Endpoint for Surat Izin
-app.post('/register-izin', upload.fields([
+router.post('/register-izin', upload.fields([
     { name: 'foto_ktm', maxCount: 1 },
     { name: 'foto_ktp_mahasiswa', maxCount: 1 },
     { name: 'foto_ktp_ortu', maxCount: 1 },
@@ -211,7 +213,7 @@ app.post('/register-izin', upload.fields([
 });
 
 // API Endpoints for Admin Panel
-app.get('/admin/peserta', async (req, res) => {
+router.get('/admin/peserta', async (req, res) => {
     try {
         const querySnapshot = await getDocs(collection(db, "pendaftar"));
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -221,7 +223,7 @@ app.get('/admin/peserta', async (req, res) => {
     }
 });
 
-app.get('/admin/panitia', async (req, res) => {
+router.get('/admin/panitia', async (req, res) => {
     try {
         const querySnapshot = await getDocs(collection(db, "panitia"));
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -231,7 +233,7 @@ app.get('/admin/panitia', async (req, res) => {
     }
 });
 
-app.get('/admin/surat-izin', async (req, res) => {
+router.get('/admin/surat-izin', async (req, res) => {
     try {
         const querySnapshot = await getDocs(collection(db, "surat_izin"));
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -240,6 +242,10 @@ app.get('/admin/surat-izin', async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
+
+// Mount the router for Netlify Functions and local testing
+app.use('/.netlify/functions/api', router);
+app.use('/api', router);
 
 // Export handler for Netlify Functions
 module.exports.handler = serverless(app);
