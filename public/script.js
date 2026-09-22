@@ -21,14 +21,14 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
         const result = await response.json();
 
         if (response.ok && result.success) {
-            alert('Pendaftaran berhasil! Terima kasih telah mendaftar.');
+            showToast('Pendaftaran berhasil! Terima kasih telah mendaftar.', 'success');
             form.reset(); // Reset form
         } else {
-            alert('Terjadi kesalahan: ' + (result.message || 'Gagal mendaftar.'));
+            showToast('Terjadi kesalahan: ' + (result.message || 'Gagal mendaftar.'), 'error');
         }
     } catch (error) {
         console.error('Error submitting form:', error);
-        alert('Terjadi kesalahan koneksi atau server. Silakan coba lagi.');
+        showToast('Terjadi kesalahan koneksi atau server. Silakan coba lagi.', 'error');
     } finally {
         // Re-enable button and hide loading
         submitBtn.disabled = false;

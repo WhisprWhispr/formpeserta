@@ -173,3 +173,41 @@ tbody tr:hover {
     margin: 24px;
     border-radius: 8px;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        height: auto;
+    }
+    .nav-links {
+        display: flex;
+        overflow-x: auto;
+        padding: 8px;
+    }
+    .nav-link {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 4px solid transparent;
+        padding: 8px 16px;
+    }
+    .nav-link.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--primary);
+    }
+    .main-content {
+        height: calc(100vh - 130px);
+    }
+    .header {
+        padding: 16px;
+    }
+    .content-area {
+        padding: 16px;
+    }
+}
+

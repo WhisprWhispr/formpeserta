@@ -21,14 +21,14 @@ document.getElementById('izinForm').addEventListener('submit', async function(e)
         const result = await response.json();
 
         if (response.ok && result.success) {
-            alert('Pengajuan Surat Izin berhasil! Terima kasih.');
+            showToast('Pengajuan Surat Izin berhasil! Terima kasih.', 'success');
             form.reset(); // Reset form
         } else {
-            alert('Terjadi kesalahan: ' + (result.message || 'Gagal mengirim pengajuan.'));
+            showToast('Terjadi kesalahan: ' + (result.message || 'Gagal mengirim pengajuan.'), 'error');
         }
     } catch (error) {
         console.error('Error submitting form:', error);
-        alert('Terjadi kesalahan koneksi atau server. Silakan coba lagi.');
+        showToast('Terjadi kesalahan koneksi atau server. Silakan coba lagi.', 'error');
     } finally {
         // Re-enable button and hide loading
         submitBtn.disabled = false;

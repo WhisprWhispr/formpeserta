@@ -1,0 +1,96 @@
+// ==========================================
+// SECURITY: Anti Right-Click & Anti-Inspect
+// ==========================================
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener('keydown', function(e) {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (
+        e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) ||
+        (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+    ) {
+        e.preventDefault();
+    }
+});
+
+// ==========================================
+// UI: Custom Toast Notification
+// ==========================================
+const toastCSS = `
+    .custom-toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .custom-toast {
+        min-width: 250px;
+        background: white;
+        color: #333;
+        padding: 16px 20px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        transform: translateX(120%);
+        transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        border-left: 5px solid #4f46e5;
+    }
+    .custom-toast.show {
+        transform: translateX(0);
+    }
+    .custom-toast.success {
+        border-left-color: #10b981;
+    }
+    .custom-toast.error {
+        border-left-color: #ef4444;
+    }
+    .custom-toast.info {
+        border-left-color: #3b82f6;
+    }
+    .toast-icon {
+        margin-right: 12px;
+        font-size: 18px;
+    }
+`;
+
+// Inject CSS
+const style = document.createElement('style');
+style.innerHTML = toastCSS;
+document.head.appendChild(style);
+
+// Create Container
+const toastContainer = document.createElement('div');
+toastContainer.className = 'custom-toast-container';
+document.body.appendChild(toastContainer);
+
+// Global Toast Function
+window.showToast = function(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = \`custom-toast \${type}\`;
+    
+    let icon = 'ℹ️';
+    if (type === 'success') icon = '✅';
+    if (type === 'error') icon = '❌';
+
+    toast.innerHTML = \`<span class="toast-icon">\${icon}</span> <span>\${message}</span>\`;
+    toastContainer.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    // Remove after 3.5 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3500);
+};
