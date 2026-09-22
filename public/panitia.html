@@ -254,7 +254,8 @@
                 <div class="info-box">
                     <p>Silakan melakukan pembayaran terlebih dahulu sesuai dengan ketentuan berikut:</p>
                     <p>🏦 <strong>Bank:</strong> BRI<br>
-                    🔢 <strong>Nomor Rekening:</strong> 732301016114535<br>
+                    🔢 <strong>Nomor Rekening:</strong> <span id="norek">732301016114535</span>
+                    <button type="button" onclick="copyNorek()" id="copyBtn" style="margin-left:8px; background:#4f46e5; color:white; border:none; padding:3px 10px; border-radius:5px; font-size:12px; font-weight:600; cursor:pointer; vertical-align:middle; transition:background 0.2s;">📋 Salin</button><br>
                     👤 <strong>Atas Nama:</strong> BUDI PRASTYO<br>
                     💰 <strong>Jumlah Pembayaran:</strong> Rp220.000/peserta<br>
                     📌 <strong>Batas Pembayaran:</strong> 20 September 2026, pukul 23.59 WIB</p>
@@ -302,5 +303,22 @@
     </div>
 
     <script src="script-panitia.js"></script>
-<script src="security_and_ui.js"></script></body>
+<script src="security_and_ui.js"></script>
+<script>
+function copyNorek() {
+    var norek = document.getElementById('norek').innerText;
+    navigator.clipboard.writeText(norek).then(function() {
+        var btn = document.getElementById('copyBtn');
+        btn.textContent = '✅ Tersalin!';
+        btn.style.background = '#10b981';
+        setTimeout(function() {
+            btn.textContent = '📋 Salin';
+            btn.style.background = '#4f46e5';
+        }, 2000);
+        if (typeof window.showToast === 'function') {
+            window.showToast('Nomor rekening berhasil disalin!', 'success');
+        }
+    });
+}
+</script></body>
 </html>
