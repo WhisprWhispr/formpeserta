@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Surat Izin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Form Pengajuan Surat Izin</h1>
+            <p>Silakan isi data diri Anda dengan benar pada form di bawah ini.</p>
+        </div>
+
+        <form id="izinForm">
+            <!-- Email -->
+            <div class="form-card">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Nama Lengkap -->
+            <div class="form-card">
+                <label for="nama_lengkap">Nama Lengkap <span class="required">*</span></label>
+                <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- NIM -->
+            <div class="form-card">
+                <label for="nim">Nim <span class="required">*</span></label>
+                <input type="text" id="nim" name="nim" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Jenis Kelamin -->
+            <div class="form-card">
+                <label>Jenis Kelamin <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="jenis_kelamin" value="Laki-Laki" required>
+                        Laki-Laki
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="jenis_kelamin" value="Perempuan">
+                        Perempuan
+                    </label>
+                </div>
+            </div>
+
+            <!-- Prodi -->
+            <div class="form-card">
+                <label>Prodi <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="prodi" value="Informatika" required>
+                        Informatika
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fakultas -->
+            <div class="form-card">
+                <label>Fakultas <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="fakultas" value="Fakultas Teknik dan Ilmu Komputer" required>
+                        Fakultas Teknik dan Ilmu Komputer
+                    </label>
+                </div>
+            </div>
+
+            <!-- Universitas -->
+            <div class="form-card">
+                <label>Universitas <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="universitas" value="Universitas Potensi Utama" required>
+                        Universitas Potensi Utama
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tahun Masuk Perkuliahan -->
+            <div class="form-card">
+                <label>Tahun Masuk Perkuliahan <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2021" required> 2021</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2022"> 2022</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2023"> 2023</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2024"> 2024</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2025"> 2025</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2026"> 2026</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2027"> 2027</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2028"> 2028</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2029"> 2029</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2030"> 2030</label>
+                </div>
+            </div>
+
+            <!-- Kelas -->
+            <div class="form-card">
+                <label>Kelas <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF A PAGI" required> IF A PAGI</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF B PAGI"> IF B PAGI</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF A SIANG"> IF A SIANG</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF B SIANG"> IF B SIANG</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF A MALAM"> IF A MALAM</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF B MALAM"> IF B MALAM</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF C MALAM"> IF C MALAM</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF D MALAM"> IF D MALAM</label>
+                </div>
+            </div>
+
+            <!-- Semester -->
+            <div class="form-card">
+                <label>Semester <span class="required">*</span></label>
+                <div class="radio-group row-group">
+                    <label class="radio-label"><input type="radio" name="semester" value="1" required> 1</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="2"> 2</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="3"> 3</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="4"> 4</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="5"> 5</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="6"> 6</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="7"> 7</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="8"> 8</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="9"> 9</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="10"> 10</label>
+                </div>
+            </div>
+
+            <!-- Kontak Orang Tua/Wali -->
+            <div class="form-card">
+                <label for="kontak_ortu">Kontak Orang Tua/Wali <span class="required">*</span></label>
+                <p class="subtitle">Mohon cantumkan nomor telepon/WhatsApp orang tua atau wali yang <strong>aktif dan dapat dihubungi</strong>, untuk keperluan kontak darurat selama kegiatan.<br><br><strong>Contoh:</strong><br>Nama: Siti Aminah<br>No. HP/WhatsApp: 0821-9876-5432</p>
+                <textarea id="kontak_ortu" name="kontak_ortu" rows="3" placeholder="Teks jawaban panjang" required></textarea>
+            </div>
+
+            <!-- Upload Foto KTM -->
+            <div class="form-card">
+                <label for="foto_ktm">Upload Foto KTM <span class="required">*</span></label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="foto_ktm" name="foto_ktm" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Upload Foto KTP Mahasiswa -->
+            <div class="form-card">
+                <label for="foto_ktp_mahasiswa">Upload Foto KTP Mahasiswa <span class="required">*</span></label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="foto_ktp_mahasiswa" name="foto_ktp_mahasiswa" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Upload Foto KTP Orangtua Wali -->
+            <div class="form-card">
+                <label for="foto_ktp_ortu">Upload Foto KTP Orangtua Wali <span class="required">*</span></label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="foto_ktp_ortu" name="foto_ktp_ortu" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Upload Foto KK -->
+            <div class="form-card">
+                <label for="foto_kk">Upload Foto KK <span class="required">*</span></label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="foto_kk" name="foto_kk" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Surat yang Dibutuhkan -->
+            <div class="form-card">
+                <label>Surat yang Dibutuhkan <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="jumlah_surat" value="1" required> 1</label>
+                    <label class="radio-label"><input type="radio" name="jumlah_surat" value="2"> 2</label>
+                    <label class="radio-label"><input type="radio" name="jumlah_surat" value="3"> 3</label>
+                    <label class="radio-label"><input type="radio" name="jumlah_surat" value="4"> 4</label>
+                    <label class="radio-label"><input type="radio" name="jumlah_surat" value="5"> 5</label>
+                </div>
+            </div>
+
+            <!-- Keperluan Surat Ditujukan Kepada -->
+            <div class="form-card">
+                <label>Keperluan Surat Ditujukan Kepada <span class="required">*</span></label>
+                <p class="subtitle">sesuai dengan yang dipilih diatas</p>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="tujuan_surat" value="Orang Tua Wali"> Orang Tua Wali</label>
+                    <label class="checkbox-label"><input type="checkbox" name="tujuan_surat" value="Dosen"> Dosen</label>
+                    <label class="checkbox-label"><input type="checkbox" name="tujuan_surat" value="Tempat Perusahan Bekerja"> Tempat Perusahan Bekerja</label>
+                </div>
+            </div>
+
+            <!-- JIKA DITUJUKAN KEPADA ORANG TUA WALI -->
+            <div class="form-card">
+                <label for="detail_ortu">JIKA DITUJUKAN KEPADA ORANG TUA WALI <span class="required">*</span></label>
+                <p class="subtitle">Silakan isi nama lengkap<br><br>Contoh :<br>Tasya Salsabillah</p>
+                <textarea id="detail_ortu" name="detail_ortu" rows="2" placeholder="Teks jawaban panjang" required></textarea>
+            </div>
+
+            <!-- JIKA DITUJUKAN KEPADA DOSEN -->
+            <div class="form-card">
+                <label for="detail_dosen">JIKA DITUJUKAN KEPADA DOSEN</label>
+                <p class="subtitle">Silakan isi nama lengkap dosen beserta gelarnya sesuai dengan penulisan resmi.<br><br>Contoh<br>Dr. Ir. Budi Prastyo, S.Kom, M.Kom.</p>
+                <textarea id="detail_dosen" name="detail_dosen" rows="2" placeholder="Teks jawaban panjang"></textarea>
+            </div>
+
+            <!-- JIKA DITUJUKAN KEPADA PERUSAHAAN -->
+            <div class="form-card">
+                <label for="detail_perusahaan">JIKA DITUJUKAN KEPADA PERUSAHAAN <span class="required">*</span></label>
+                <p class="subtitle">Contoh: PT ABC Indonesia<br>Contoh: Bapak Ahmad Prasetyo, S.E.<br>Contoh: HRD Manager</p>
+                <textarea id="detail_perusahaan" name="detail_perusahaan" rows="3" placeholder="Teks jawaban panjang" required></textarea>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" id="submitBtn">Kirim</button>
+            </div>
+            
+            <div id="loadingOverlay" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p>Mengirim data...</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="script-izin.js"></script>
+</body>
+</html>

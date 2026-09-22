@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="nav-links">
+            <a class="nav-link active" data-target="peserta">Data Peserta Utama</a>
+            <a class="nav-link" data-target="panitia">Data Panitia</a>
+            <a class="nav-link" data-target="surat-izin">Pengajuan Surat Izin</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <h1 id="page-title">Data Peserta Utama</h1>
+        </header>
+
+        <div class="content-area">
+            <div class="card">
+                <div id="loading" class="loading">Memuat data...</div>
+                <div id="error" class="error-msg hidden"></div>
+                
+                <div class="table-wrapper hidden" id="table-container">
+                    <table id="data-table">
+                        <thead id="table-head">
+                            <!-- Table Headers Injected by JS -->
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Table Rows Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

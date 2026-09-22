@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Registrasi Malam Keakraban</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Form Registrasi Malam Keakraban Prodi Informatika</h1>
+            <p>Silakan isi data diri Anda dengan benar pada form di bawah ini.</p>
+        </div>
+
+        <form id="registrationForm">
+            <!-- Email -->
+            <div class="form-card">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Nama Lengkap -->
+            <div class="form-card">
+                <label for="nama_lengkap">Nama Lengkap <span class="required">*</span></label>
+                <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- NIM -->
+            <div class="form-card">
+                <label for="nim">Nim <span class="required">*</span></label>
+                <input type="text" id="nim" name="nim" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Jenis Kelamin -->
+            <div class="form-card">
+                <label>Jenis Kelamin <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="jenis_kelamin" value="Laki - Laki" required>
+                        Laki - Laki
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="jenis_kelamin" value="Perempuan">
+                        Perempuan
+                    </label>
+                </div>
+            </div>
+
+            <!-- Prodi -->
+            <div class="form-card">
+                <label>Prodi <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="prodi" value="Informatika" required>
+                        Informatika
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fakultas -->
+            <div class="form-card">
+                <label>Fakultas <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="fakultas" value="Fakultas Teknik dan Ilmu Komputer" required>
+                        Fakultas Teknik dan Ilmu Komputer
+                    </label>
+                </div>
+            </div>
+
+            <!-- Universitas -->
+            <div class="form-card">
+                <label>Universitas <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="universitas" value="Universitas Potensi Utama" required>
+                        Universitas Potensi Utama
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tahun Masuk Perkuliahan -->
+            <div class="form-card">
+                <label>Tahun Masuk Perkuliahan <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2020" required> 2020</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2021"> 2021</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2022"> 2022</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2023"> 2023</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2024"> 2024</label>
+                    <label class="radio-label"><input type="radio" name="tahun_masuk" value="2025"> 2025</label>
+                </div>
+            </div>
+
+            <!-- Kelas -->
+            <div class="form-card">
+                <label>Kelas <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF A PAGI" required> IF A PAGI</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF B PAGI"> IF B PAGI</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF A SIANG"> IF A SIANG</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF B SIANG"> IF B SIANG</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF A MALAM"> IF A MALAM</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF B MALAM"> IF B MALAM</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF C MALAM"> IF C MALAM</label>
+                    <label class="radio-label"><input type="radio" name="kelas" value="IF D MALAM"> IF D MALAM</label>
+                </div>
+            </div>
+
+            <!-- Semester -->
+            <div class="form-card">
+                <label>Semester <span class="required">*</span></label>
+                <div class="radio-group row-group">
+                    <label class="radio-label"><input type="radio" name="semester" value="1" required> 1</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="2"> 2</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="3"> 3</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="4"> 4</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="5"> 5</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="6"> 6</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="7"> 7</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="8"> 8</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="9"> 9</label>
+                    <label class="radio-label"><input type="radio" name="semester" value="10"> 10</label>
+                </div>
+            </div>
+
+            <!-- Nomor Telepon -->
+            <div class="form-card">
+                <label for="no_telepon">Nomor Telepon / Whatsapp Yang Aktif <span class="required">*</span></label>
+                <input type="text" id="no_telepon" name="no_telepon" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Status Aktivitas -->
+            <div class="form-card">
+                <label>Status Aktivitas Mahasiswa Saat Ini <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="status_aktivitas" value="Mahasiswa Aktif dan Bekerja Part Time" required> Mahasiswa Aktif dan Bekerja Part Time</label>
+                    <label class="radio-label"><input type="radio" name="status_aktivitas" value="Mahasiswa Aktif dan Bekerja Full Time"> Mahasiswa Aktif dan Bekerja Full Time</label>
+                    <label class="radio-label"><input type="radio" name="status_aktivitas" value="Mahasiswa Aktif dan Tidak Bekerja"> Mahasiswa Aktif dan Tidak Bekerja</label>
+                    <label class="radio-label"><input type="radio" name="status_aktivitas" value="Mahasiswa Aktif dan Wirausaha"> Mahasiswa Aktif dan Wirausaha</label>
+                </div>
+            </div>
+
+            <!-- Alasan Mengikuti -->
+            <div class="form-card">
+                <label for="alasan">Alasan Mengikuti Malam Keakraban <span class="required">*</span></label>
+                <p class="subtitle"><strong>Apa alasan kamu mengikuti kegiatan Malam Keakraban Prodi Informatika?</strong><br><br>Ceritakan secara singkat alasan atau hal yang ingin kamu dapatkan dari kegiatan ini.<br><br><strong>Contoh:</strong><br>"Ingin lebih kenal dengan teman-teman Informatika, menambah relasi, seru-seruan bareng, dan mendapatkan pengalaman baru."</p>
+                <textarea id="alasan" name="alasan" rows="3" placeholder="Teks jawaban panjang" required></textarea>
+            </div>
+
+            <!-- Riwayat Penyakit -->
+            <div class="form-card">
+                <label>Riwayat Penyakit <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="riwayat_penyakit" value="Ya" required> Ya</label>
+                    <label class="radio-label"><input type="radio" name="riwayat_penyakit" value="Tidak"> Tidak</label>
+                </div>
+            </div>
+
+            <!-- Jenis Riwayat Penyakit -->
+            <div class="form-card">
+                <label for="jenis_penyakit">Jelaskan Jenis Riwayat Penyakit nya <span class="required">*</span></label>
+                <textarea id="jenis_penyakit" name="jenis_penyakit" rows="2" placeholder="Teks jawaban panjang" required></textarea>
+            </div>
+
+            <!-- Riwayat Alergi -->
+            <div class="form-card">
+                <label>Riwayat Alergi <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="riwayat_alergi" value="Ya" required> Ya</label>
+                    <label class="radio-label"><input type="radio" name="riwayat_alergi" value="Tidak"> Tidak</label>
+                </div>
+            </div>
+
+            <!-- Jenis Riwayat Alergi -->
+            <div class="form-card">
+                <label>Jenis Riwayat Alergi nya <span class="required">*</span></label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Tidak memiliki alergi"> Tidak memiliki alergi</label>
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Alergi makanan"> Alergi makanan</label>
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Alergi obat"> Alergi obat</label>
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Alergi minuman"> Alergi minuman</label>
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Alergi debu"> Alergi debu</label>
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Alergi dingin"> Alergi dingin</label>
+                    <label class="checkbox-label"><input type="checkbox" name="jenis_alergi" value="Alergi bahan/produk tertentu"> Alergi bahan/produk tertentu</label>
+                    <label class="checkbox-label flex-align"><input type="checkbox" name="jenis_alergi" value="Yang lain"> Yang lain: <input type="text" name="jenis_alergi_lain" class="inline-input"></label>
+                </div>
+            </div>
+
+            <!-- Riwayat Kesurupan -->
+            <div class="form-card">
+                <label>⚠️ Riwayat Kesurupan <span class="required">*</span></label>
+                <p class="subtitle"><strong>Apakah Anda memiliki riwayat pernah mengalami kesurupan?</strong></p>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="riwayat_kesurupan" value="Ya" required> Ya</label>
+                    <label class="radio-label"><input type="radio" name="riwayat_kesurupan" value="Tidak"> Tidak</label>
+                    <label class="radio-label"><input type="radio" name="riwayat_kesurupan" value="Mungkin"> Mungkin</label>
+                </div>
+            </div>
+
+            <!-- Nama Bank -->
+            <div class="form-card">
+                <label for="nama_bank">Nama Bank / Ewallet Yang Anda Gunakan Untuk Transfer <span class="required">*</span></label>
+                <input type="text" id="nama_bank" name="nama_bank" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Nomor Rekening -->
+            <div class="form-card">
+                <label for="no_rekening">Nomor Rekening / Ewallet Yang Anda Gunakan Untuk Transfer <span class="required">*</span></label>
+                <input type="text" id="no_rekening" name="no_rekening" placeholder="Jawaban Anda" required>
+            </div>
+
+            <!-- Bukti Follow HMPS IF -->
+            <div class="form-card">
+                <label for="bukti_hmps_if">Upload Bukti Follow Instagram HMPS IF <span class="required">*</span></label>
+                <p class="subtitle">@hmpsif.upu</p>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="bukti_hmps_if" name="bukti_hmps_if" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Bukti Follow UPU -->
+            <div class="form-card">
+                <label for="bukti_upu">Upload Bukti Follow Instagram Upu <span class="required">*</span></label>
+                <p class="subtitle">@official_upu</p>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="bukti_upu" name="bukti_upu" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Pas Foto -->
+            <div class="form-card">
+                <label for="pas_foto">Pas Foto <span class="required">*</span></label>
+                <div class="info-box">
+                    <p><strong>Ketentuan Foto:</strong></p>
+                    <ul>
+                        <li>Foto harus merupakan <strong>foto asli peserta</strong>.</li>
+                        <li>Atribut/pakaian <strong>bebas dan tidak wajib menggunakan almamater</strong>.</li>
+                        <li>Foto harus terlihat <strong>jelas, tidak buram, dan wajah peserta dapat dikenali</strong>.</li>
+                        <li><strong>Tidak diperbolehkan</strong> menggunakan foto kartun, anime, avatar, ilustrasi, atau gambar selain foto diri sendiri.</li>
+                        <li>Foto digunakan untuk keperluan <strong>sinkronisasi dan verifikasi data peserta kegiatan</strong>.</li>
+                    </ul>
+                </div>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="pas_foto" name="pas_foto" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Informasi Pembayaran -->
+            <div class="form-card">
+                <label for="bukti_pembayaran">💳 INFORMASI PEMBAYARAN <span class="required">*</span></label>
+                <div class="info-box">
+                    <p>Silakan melakukan pembayaran terlebih dahulu sesuai dengan ketentuan berikut:</p>
+                    <p>🏦 <strong>Bank:</strong> BRI<br>
+                    🔢 <strong>Nomor Rekening:</strong> 732301016114535<br>
+                    👤 <strong>Atas Nama:</strong> BUDI PRASTYO<br>
+                    💰 <strong>Jumlah Pembayaran:</strong> Rp220.000/peserta<br>
+                    📌 <strong>Batas Pembayaran:</strong> 20 September 2026, pukul 23.59 WIB</p>
+                    <br>
+                    <p>Setelah melakukan pembayaran, harap <strong>mengunggah bukti pembayaran yang jelas dan dapat terbaca</strong> dalam format <strong>JPG/JPEG/PNG</strong>.</p>
+                    <br>
+                    <p>Pastikan bukti transfer mencantumkan informasi berikut:</p>
+                    <ul>
+                        <li><strong>Nama pengirim</strong></li>
+                        <li><strong>Nominal transfer</strong></li>
+                        <li><strong>Tanggal transfer</strong></li>
+                        <li><strong>Status transaksi berhasil</strong></li>
+                    </ul>
+                    <br>
+                    <p>⚠️ <strong>PENTING:</strong><br>Pembayaran yang telah dilakukan <strong>tidak dapat dikembalikan (refund)</strong>, kecuali apabila terjadi <strong>pembatalan kegiatan dari pihak panitia</strong>.</p>
+                    <p>Peserta diharapkan memastikan kembali nominal dan rekening tujuan sebelum melakukan transfer.</p>
+                </div>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Pernyataan dan Komitmen -->
+            <div class="form-card">
+                <label>PERNYATAAN DAN KOMITMEN PESERTA <span class="required">*</span></label>
+                <p class="subtitle">Dengan mengisi dan mengirimkan formulir pendaftaran <strong>Malam Keakraban Prodi Informatika</strong>, saya menyatakan bahwa:</p>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="komitmen" value="1" required> Saya telah mengisi seluruh data dengan benar, lengkap, dan dapat dipertanggungjawabkan...</label>
+                    <label class="checkbox-label"><input type="checkbox" name="komitmen" value="2" required> Saya bersedia mengikuti seluruh rangkaian kegiatan sesuai jadwal...</label>
+                    <label class="checkbox-label"><input type="checkbox" name="komitmen" value="3" required> Saya berkomitmen menjaga sikap, keamanan, ketertiban, kebersihan...</label>
+                    <label class="checkbox-label"><input type="checkbox" name="komitmen" value="4" required> Saya bersedia bertanggung jawab atas segala data dan keputusan saya...</label>
+                    <label class="checkbox-label"><input type="checkbox" name="komitmen" value="5" required> Saya memahami dan menyetujui seluruh ketentuan kegiatan...</label>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" id="submitBtn">Kirim</button>
+            </div>
+            
+            <div id="loadingOverlay" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p>Mengirim data...</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
