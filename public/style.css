@@ -475,3 +475,22 @@ button[type="submit"]:disabled {
         font-size: 13px;
     }
 }
+
+/* Policy Links */
+.policy-links {
+    text-align: center;
+    padding: 12px 20px 4px;
+}
+.policy-links p {
+    font-size: 13px;
+    color: #9ca3af;
+    line-height: 1.6;
+}
+.policy-links a {
+    color: #4f46e5;
+    text-decoration: underline;
+    font-weight: 500;
+}
+.policy-links a:hover {
+    color: #7c3aed;
+}

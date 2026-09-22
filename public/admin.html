@@ -14,9 +14,10 @@
             <h2>Admin Panel</h2>
         </div>
         <nav class="nav-links">
-            <a class="nav-link active" data-target="peserta">Data Peserta Utama</a>
-            <a class="nav-link" data-target="panitia">Data Panitia</a>
-            <a class="nav-link" data-target="surat-izin">Pengajuan Surat Izin</a>
+            <a class="nav-link active" data-target="peserta">&#128100; Data Peserta Utama</a>
+            <a class="nav-link" data-target="panitia">&#128101; Data Panitia</a>
+            <a class="nav-link" data-target="surat-izin">&#128196; Pengajuan Surat Izin</a>
+            <a class="nav-link nav-link-settings" data-target="pengaturan">&#9881;&#65039; Pengaturan</a>
         </nav>
     </aside>
 
@@ -27,24 +28,56 @@
         </header>
 
         <div class="content-area">
-            <div class="card">
-                <div id="loading" class="loading">Memuat data...</div>
-                <div id="error" class="error-msg hidden"></div>
-                
-                <div class="table-wrapper hidden" id="table-container">
-                    <table id="data-table">
-                        <thead id="table-head">
-                            <!-- Table Headers Injected by JS -->
-                        </thead>
-                        <tbody id="table-body">
-                            <!-- Table Rows Injected by JS -->
-                        </tbody>
-                    </table>
+
+            <!-- TABLE PANEL (data view) -->
+            <div id="panel-data">
+                <div class="card">
+                    <div id="loading" class="loading">Memuat data...</div>
+                    <div id="error" class="error-msg hidden"></div>
+                    <div class="table-wrapper hidden" id="table-container">
+                        <table id="data-table">
+                            <thead id="table-head"></thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
+            <!-- SETTINGS PANEL -->
+            <div id="panel-pengaturan" class="hidden">
+                <div class="settings-card">
+                    <div class="settings-section">
+                        <h3>&#128197; Batas Pendaftaran Peserta</h3>
+                        <p class="settings-desc">Atur tanggal dan waktu penutupan pendaftaran peserta. Setelah batas waktu ini, form pendaftaran akan otomatis tertutup.</p>
+                        <div class="settings-form-group">
+                            <label for="deadline-peserta">Tanggal & Waktu Penutupan</label>
+                            <input type="datetime-local" id="deadline-peserta" class="settings-input">
+                        </div>
+                        <div class="settings-status" id="status-peserta"></div>
+                    </div>
+
+                    <hr class="settings-divider">
+
+                    <div class="settings-section">
+                        <h3>&#128197; Batas Pendaftaran Panitia</h3>
+                        <p class="settings-desc">Atur tanggal dan waktu penutupan pendaftaran panitia. Setelah batas waktu ini, form pendaftaran panitia akan otomatis tertutup.</p>
+                        <div class="settings-form-group">
+                            <label for="deadline-panitia">Tanggal & Waktu Penutupan</label>
+                            <input type="datetime-local" id="deadline-panitia" class="settings-input">
+                        </div>
+                        <div class="settings-status" id="status-panitia"></div>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button id="btn-save-settings" class="btn-save">&#128190; Simpan Pengaturan</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <script src="admin.js"></script>
-<script src="security_and_ui.js"></script></body>
+    <script src="security_and_ui.js"></script>
+</body>
 </html>

@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { key: 'riwayat_kesurupan', label: 'Kesurupan' },
             { key: 'nama_bank', label: 'Bank' },
             { key: 'no_rekening', label: 'No Rekening' },
+            { key: 'komitmen', label: 'Pernyataan Komitmen' },
             { key: 'pas_foto_url', label: 'Pas Foto', isImg: true },
             { key: 'bukti_pembayaran_url', label: 'Pembayaran', isImg: true },
             { key: 'bukti_hmps_if_url', label: 'Bukti HMPS', isImg: true },
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { key: 'riwayat_kesurupan', label: 'Kesurupan' },
             { key: 'nama_bank', label: 'Bank' },
             { key: 'no_rekening', label: 'No Rekening' },
+            { key: 'komitmen', label: 'Pernyataan Komitmen' },
             { key: 'pas_foto_url', label: 'Pas Foto', isImg: true },
             { key: 'bukti_pembayaran_url', label: 'Pembayaran', isImg: true }
         ],
@@ -195,14 +197,90 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Event Listeners for tabs
+    // ========================
+    // SETTINGS PANEL
+    // ========================
+    const panelData = document.getElementById('panel-data');
+    const panelSettings = document.getElementById('panel-pengaturan');
+    const deadlinePeserta = document.getElementById('deadline-peserta');
+    const deadlinePanitia = document.getElementById('deadline-panitia');
+    const statusPeserta = document.getElementById('status-peserta');
+    const statusPanitia = document.getElementById('status-panitia');
+    const btnSave = document.getElementById('btn-save-settings');
+
+    const loadSettings = async () => {
+        try {
+            const res = await fetch('/api/settings');
+            const result = await res.json();
+            if (result.success && result.data) {
+                const { deadline_peserta, deadline_panitia } = result.data;
+                if (deadline_peserta) {
+                    deadlinePeserta.value = deadline_peserta.substring(0, 16);
+                    const isClosed = new Date() > new Date(deadline_peserta);
+                    statusPeserta.textContent = isClosed ? 'Status: DITUTUP' : 'Status: TERBUKA';
+                    statusPeserta.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
+                }
+                if (deadline_panitia) {
+                    deadlinePanitia.value = deadline_panitia.substring(0, 16);
+                    const isClosed = new Date() > new Date(deadline_panitia);
+                    statusPanitia.textContent = isClosed ? 'Status: DITUTUP' : 'Status: TERBUKA';
+                    statusPanitia.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
+                }
+            }
+        } catch (e) {
+            console.error('Gagal memuat pengaturan', e);
+        }
+    };
+
+    btnSave.addEventListener('click', async () => {
+        const dp = deadlinePeserta.value;
+        const dpa = deadlinePanitia.value;
+        if (!dp || !dpa) {
+            if (typeof window.showToast === 'function') window.showToast('Harap isi kedua tanggal batas pendaftaran!', 'error');
+            return;
+        }
+        try {
+            btnSave.disabled = true;
+            btnSave.textContent = 'Menyimpan...';
+            const res = await fetch('/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ deadline_peserta: new Date(dp).toISOString(), deadline_panitia: new Date(dpa).toISOString() })
+            });
+            const result = await res.json();
+            if (result.success) {
+                if (typeof window.showToast === 'function') window.showToast('Pengaturan berhasil disimpan!', 'success');
+                loadSettings();
+            } else {
+                throw new Error(result.message || 'Gagal menyimpan');
+            }
+        } catch (e) {
+            if (typeof window.showToast === 'function') window.showToast('Error: ' + e.message, 'error');
+        } finally {
+            btnSave.disabled = false;
+            btnSave.textContent = '\uD83D\uDCBE Simpan Pengaturan';
+        }
+    });
+
+    // ========================
+    // NAV TAB LOGIC
+    // ========================
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             navLinks.forEach(nav => nav.classList.remove('active'));
             e.target.classList.add('active');
-            pageTitle.textContent = e.target.textContent;
+            pageTitle.textContent = e.target.textContent.trim();
             currentCategory = e.target.getAttribute('data-target');
-            fetchAndRender(currentCategory);
+
+            if (currentCategory === 'pengaturan') {
+                panelData.classList.add('hidden');
+                panelSettings.classList.remove('hidden');
+                loadSettings();
+            } else {
+                panelSettings.classList.add('hidden');
+                panelData.classList.remove('hidden');
+                fetchAndRender(currentCategory);
+            }
         });
     });
 

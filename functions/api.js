@@ -5,7 +5,7 @@ const multer = require('multer');
 const { v2: cloudinary } = require('cloudinary');
 const streamifier = require('streamifier');
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc } = require('firebase/firestore');
 const path = require('path');
 
 // Initialize Express
@@ -264,9 +264,28 @@ router.delete('/admin/:category/:id', async (req, res) => {
     }
 });
 
+// Settings endpoints
+router.get('/settings', async (req, res) => {
+    try {
+        const snap = await getDoc(doc(db, 'settings', 'pendaftaran'));
+        const data = snap.exists() ? snap.data() : {};
+        res.json({ success: true, data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+router.post('/settings', async (req, res) => {
+    try {
+        const { deadline_peserta, deadline_panitia } = req.body;
+        await setDoc(doc(db, 'settings', 'pendaftaran'), { deadline_peserta, deadline_panitia }, { merge: true });
+        res.json({ success: true, message: 'Pengaturan disimpan' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
 // Mount the router for Netlify Functions and local testing
 app.use('/.netlify/functions/api', router);
 app.use('/api', router);
 
 // Export handler for Netlify Functions
 module.exports.handler = serverless(app);
+// Export app for local dev server
+module.exports.app = app;

@@ -1,3 +1,45 @@
+// =============================================
+// CEK BATAS PENDAFTARAN PANITIA DARI SETTINGS
+// =============================================
+(function() {
+    var formatTanggal = function(isoStr) {
+        var d = new Date(isoStr);
+        var opsi = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta' };
+        return d.toLocaleDateString('id-ID', opsi) + ' WIB';
+    };
+
+    fetch('/api/settings')
+        .then(function(r) { return r.json(); })
+        .then(function(result) {
+            if (result.success && result.data && result.data.deadline_panitia) {
+                var deadline = new Date(result.data.deadline_panitia);
+                var spanBatas = document.getElementById('batas-pembayaran');
+                if (spanBatas) spanBatas.textContent = formatTanggal(result.data.deadline_panitia);
+
+                if (new Date() > deadline) {
+                    var banner = document.getElementById('form-closed-banner');
+                    if (banner) banner.style.display = 'block';
+                    var submitBtn = document.getElementById('submitBtn');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.style.opacity = '0.5';
+                        submitBtn.style.cursor = 'not-allowed';
+                        submitBtn.textContent = 'Pendaftaran Ditutup';
+                    }
+                    var inputs = document.querySelectorAll('#registrationForm input, #registrationForm textarea, #registrationForm select');
+                    inputs.forEach(function(el) { el.disabled = true; });
+                }
+            } else {
+                var spanBatas = document.getElementById('batas-pembayaran');
+                if (spanBatas) spanBatas.textContent = '20 September 2026, pukul 23.59 WIB';
+            }
+        })
+        .catch(function() {
+            var spanBatas = document.getElementById('batas-pembayaran');
+            if (spanBatas) spanBatas.textContent = '20 September 2026, pukul 23.59 WIB';
+        });
+}());
+
 document.getElementById('registrationForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 

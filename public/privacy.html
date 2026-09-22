@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Privasi - Malam Keakraban Prodi Informatika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #1f2937; }
+        .top-bar {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            padding: 20px 24px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .top-bar a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; }
+        .top-bar a:hover { color: white; }
+        .top-bar span { color: rgba(255,255,255,0.4); }
+        .top-bar h1 { font-size: 1.1rem; font-weight: 600; }
+        .container {
+            max-width: 780px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 48px 48px;
+        }
+        .page-title { font-size: 1.8rem; font-weight: 700; color: #1f2937; margin-bottom: 6px; }
+        .page-date { font-size: 0.85rem; color: #9ca3af; margin-bottom: 32px; }
+        .intro { background: #eef2ff; border-left: 4px solid #4f46e5; padding: 16px 20px; border-radius: 6px; font-size: 0.95rem; color: #3730a3; margin-bottom: 32px; line-height: 1.6; }
+        h2 { font-size: 1.1rem; font-weight: 600; color: #111827; margin: 28px 0 10px; }
+        p { font-size: 0.95rem; color: #374151; line-height: 1.75; margin-bottom: 10px; }
+        ul { padding-left: 20px; margin: 8px 0 12px; }
+        li { font-size: 0.95rem; color: #374151; line-height: 1.7; margin-bottom: 4px; }
+        .footer-nav { text-align: center; margin-top: 40px; }
+        .footer-nav a { display: inline-block; background: #4f46e5; color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        @media(max-width:600px) { .container { padding: 28px 20px; margin: 16px; } }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="index.html">&#8592; Kembali ke Form</a>
+        <span>/</span>
+        <h1>Kebijakan Privasi</h1>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">&#128274; Kebijakan Privasi</h1>
+        <p class="page-date">Berlaku sejak: September 2026 &nbsp;|&nbsp; Kegiatan Malam Keakraban Prodi Informatika</p>
+
+        <div class="intro">
+            Kami berkomitmen untuk melindungi privasi dan data pribadi seluruh peserta yang mendaftarkan diri pada kegiatan Malam Keakraban Prodi Informatika, Universitas Potensi Utama. Kebijakan ini menjelaskan bagaimana data Anda dikumpulkan, digunakan, dan dijaga keamanannya.
+        </div>
+
+        <h2>1. Data yang Kami Kumpulkan</h2>
+        <p>Dalam proses pendaftaran, kami mengumpulkan data sebagai berikut:</p>
+        <ul>
+            <li>Nama lengkap, NIM, dan alamat email</li>
+            <li>Nomor telepon / WhatsApp yang aktif</li>
+            <li>Informasi akademik (kelas, semester, tahun masuk, prodi, fakultas)</li>
+            <li>Riwayat penyakit dan alergi (untuk keperluan keselamatan kegiatan)</li>
+            <li>Pas foto dan bukti dokumen pendukung lainnya</li>
+            <li>Bukti pembayaran biaya kegiatan</li>
+        </ul>
+
+        <h2>2. Tujuan Penggunaan Data</h2>
+        <p>Data yang Anda berikan hanya akan digunakan untuk keperluan berikut:</p>
+        <ul>
+            <li>Verifikasi identitas dan status pendaftaran peserta</li>
+            <li>Koordinasi teknis dan administrasi kegiatan</li>
+            <li>Penanganan kondisi darurat kesehatan selama kegiatan berlangsung</li>
+            <li>Pembuatan dokumentasi peserta kegiatan</li>
+        </ul>
+
+        <h2>3. Keamanan Data</h2>
+        <p>Data Anda disimpan secara aman menggunakan layanan <strong>Google Firebase Firestore</strong> dengan enkripsi standar industri. Gambar dan dokumen Anda disimpan di layanan <strong>Cloudinary</strong> yang aman. Kami tidak menjual, memperjualbelikan, atau membagikan data pribadi Anda kepada pihak ketiga manapun tanpa izin Anda.</p>
+
+        <h2>4. Penyimpanan & Penghapusan Data</h2>
+        <p>Data pendaftaran akan disimpan selama kegiatan berlangsung dan paling lama 30 hari setelah kegiatan selesai. Setelah periode tersebut, data akan dihapus secara permanen dari sistem kami.</p>
+
+        <h2>5. Hak Anda</h2>
+        <p>Anda memiliki hak untuk meminta koreksi data jika terdapat kesalahan informasi. Untuk pertanyaan lebih lanjut, silakan hubungi panitia melalui WhatsApp resmi kegiatan.</p>
+
+        <h2>6. Perubahan Kebijakan</h2>
+        <p>Kami berhak memperbarui kebijakan privasi ini sewaktu-waktu. Perubahan akan diinformasikan melalui grup WhatsApp resmi peserta kegiatan.</p>
+
+        <div class="footer-nav">
+            <a href="index.html">&#8592; Kembali ke Form Pendaftaran</a>
+        </div>
+    </div>
+    <script src="security_and_ui.js"></script>
+</body>
+</html>

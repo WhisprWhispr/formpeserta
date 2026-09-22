@@ -15,6 +15,11 @@
         </div>
 
         <form id="registrationForm">
+            <!-- FORM CLOSED BANNER -->
+            <div id="form-closed-banner" style="display:none; background:#fee2e2; border-left:5px solid #dc2626; padding:20px; border-radius:8px; margin-bottom:20px; text-align:center;">
+                <p style="font-size:18px; font-weight:700; color:#dc2626;">&#128680; Pendaftaran Panitia Telah Ditutup</p>
+                <p style="color:#7f1d1d; margin-top:6px;">Batas waktu pendaftaran panitia telah berakhir. Form tidak dapat diisi lagi.</p>
+            </div>
             <!-- Email -->
             <div class="form-card">
                 <label for="email">Email <span class="required">*</span></label>
@@ -258,7 +263,7 @@
                     <button type="button" onclick="copyNorek()" id="copyBtn" style="margin-left:8px; background:#4f46e5; color:white; border:none; padding:3px 10px; border-radius:5px; font-size:12px; font-weight:600; cursor:pointer; vertical-align:middle; transition:background 0.2s;">📋 Salin</button><br>
                     👤 <strong>Atas Nama:</strong> BUDI PRASTYO<br>
                     💰 <strong>Jumlah Pembayaran:</strong> Rp220.000/peserta<br>
-                    📌 <strong>Batas Pembayaran:</strong> 20 September 2026, pukul 23.59 WIB</p>
+                    📌 <strong>Batas Pembayaran:</strong> <span id="batas-pembayaran">Memuat...</span></p>
                     <br>
                     <p>Setelah melakukan pembayaran, harap <strong>mengunggah bukti pembayaran yang jelas dan dapat terbaca</strong> dalam format <strong>JPG/JPEG/PNG</strong>.</p>
                     <br>
@@ -289,6 +294,15 @@
                     <label class="checkbox-label"><input type="checkbox" name="komitmen" value="4" required> Saya bersedia bertanggung jawab atas segala data dan keputusan saya...</label>
                     <label class="checkbox-label"><input type="checkbox" name="komitmen" value="5" required> Saya memahami dan menyetujui seluruh ketentuan kegiatan...</label>
                 </div>
+            </div>
+
+            <div class="policy-links">
+                <p>Dengan mengirimkan formulir ini, Anda menyetujui
+                    <a href="privacy.html" target="_blank">Kebijakan Privasi</a>
+                    dan
+                    <a href="terms.html" target="_blank">Syarat &amp; Ketentuan</a>
+                    kami.
+                </p>
             </div>
 
             <div class="form-footer">

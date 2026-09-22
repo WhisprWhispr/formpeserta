@@ -23,7 +23,9 @@ body {
     overflow: hidden;
 }
 
-/* Sidebar */
+/* ======================== */
+/* SIDEBAR                  */
+/* ======================== */
 .sidebar {
     width: 260px;
     background-color: var(--card-bg);
@@ -70,7 +72,9 @@ body {
     border-left-color: var(--primary);
 }
 
-/* Main Content */
+/* ======================== */
+/* MAIN CONTENT             */
+/* ======================== */
 .main-content {
     flex: 1;
     display: flex;
@@ -92,7 +96,6 @@ body {
     font-weight: 600;
 }
 
-/* Table Container */
 .content-area {
     padding: 32px;
     flex: 1;
@@ -106,6 +109,9 @@ body {
     overflow: hidden;
 }
 
+/* ======================== */
+/* TABLE STYLES             */
+/* ======================== */
 .table-wrapper {
     overflow-x: auto;
 }
@@ -117,30 +123,54 @@ table {
 }
 
 thead {
-    background-color: #f9fafb;
-    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 th {
-    padding: 12px 24px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-muted);
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     white-space: nowrap;
+    border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+th:last-child {
+    border-right: none;
 }
 
 td {
-    padding: 16px 24px;
+    padding: 11px 16px;
     border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
     color: var(--text-main);
     font-size: 0.875rem;
     white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td:last-child {
+    border-right: none;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8f7ff;
 }
 
 tbody tr:hover {
-    background-color: #f9fafb;
+    background-color: #eef2ff;
+    transition: background 0.15s;
 }
 
 .img-link {
@@ -153,7 +183,9 @@ tbody tr:hover {
     text-decoration: underline;
 }
 
-/* Utilities */
+/* ======================== */
+/* UTILITIES                */
+/* ======================== */
 .hidden {
     display: none !important;
 }
@@ -174,7 +206,9 @@ tbody tr:hover {
     border-radius: 8px;
 }
 
-/* Responsive Design */
+/* ======================== */
+/* RESPONSIVE (HP)          */
+/* ======================== */
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -211,8 +245,9 @@ tbody tr:hover {
     }
 }
 
-
-/* Delete Button */
+/* ======================== */
+/* DELETE BUTTON            */
+/* ======================== */
 .btn-hapus {
     background: #fee2e2;
     color: #dc2626;
@@ -225,8 +260,102 @@ tbody tr:hover {
     white-space: nowrap;
     transition: background 0.2s, transform 0.1s;
 }
+
 .btn-hapus:hover {
     background: #dc2626;
     color: white;
     transform: scale(1.05);
+}
+
+/* ======================== */
+/* SETTINGS PANEL           */
+/* ======================== */
+.nav-link-settings {
+    margin-top: auto;
+    border-top: 1px solid var(--border-color);
+    color: #7c3aed;
+}
+.settings-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 32px;
+    max-width: 640px;
+}
+.settings-section h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+.settings-desc {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+.settings-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+.settings-form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+.settings-input {
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border 0.2s;
+    width: 100%;
+    max-width: 360px;
+}
+.settings-input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+}
+.settings-status {
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    min-height: 28px;
+}
+.settings-status.open {
+    background: #d1fae5;
+    color: #065f46;
+}
+.settings-status.closed {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.settings-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 28px 0;
+}
+.settings-actions {
+    margin-top: 28px;
+}
+.btn-save {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+}
+.btn-save:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
