@@ -22,31 +22,35 @@ document.addEventListener('keydown', function(e) {
 const toastCSS = `
     .custom-toast-container {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 9999;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        align-items: center;
     }
     .custom-toast {
-        min-width: 250px;
+        min-width: 280px;
         background: white;
         color: #333;
         padding: 16px 20px;
         border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         display: flex;
         align-items: center;
-        transform: translateX(120%);
-        transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
         font-family: 'Inter', sans-serif;
         font-size: 14px;
         font-weight: 500;
         border-left: 5px solid #4f46e5;
     }
     .custom-toast.show {
-        transform: translateX(0);
+        opacity: 1;
+        transform: translateY(0);
     }
     .custom-toast.success {
         border-left-color: #10b981;
