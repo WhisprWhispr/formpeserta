@@ -5,7 +5,7 @@ const multer = require('multer');
 const { v2: cloudinary } = require('cloudinary');
 const streamifier = require('streamifier');
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, addDoc, getDocs } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } = require('firebase/firestore');
 const path = require('path');
 
 // Initialize Express
@@ -238,6 +238,27 @@ router.get('/admin/surat-izin', async (req, res) => {
         const querySnapshot = await getDocs(collection(db, "surat_izin"));
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         res.status(200).json({ success: true, data });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// API Endpoint DELETE data
+const collectionMap = {
+    'peserta': 'pendaftar',
+    'panitia': 'panitia',
+    'surat-izin': 'surat_izin'
+};
+
+router.delete('/admin/:category/:id', async (req, res) => {
+    try {
+        const { category, id } = req.params;
+        const colName = collectionMap[category];
+        if (!colName) {
+            return res.status(400).json({ success: false, message: 'Kategori tidak valid' });
+        }
+        await deleteDoc(doc(db, colName, id));
+        res.status(200).json({ success: true, message: 'Data berhasil dihapus' });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
