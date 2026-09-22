@@ -19,6 +19,7 @@
     "express": "^5.2.1",
     "firebase": "^12.19.0",
     "multer": "^2.4.0",
-    "serverless-http": "^4.0.0"
+    "serverless-http": "^4.0.0",
+    "streamifier": "^0.1.1"
   }
 }
