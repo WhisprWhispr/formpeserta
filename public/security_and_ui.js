@@ -1,20 +1,36 @@
 // ==========================================
-// SECURITY: Anti Right-Click & Anti-Inspect
+// SECURITY: Anti Right-Click, Anti-Inspect, Anti-Copy, Anti-Select
 // ==========================================
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 });
 
 document.addEventListener('keydown', function(e) {
-    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+A, Ctrl+S, Ctrl+P
     if (
         e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) ||
-        (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+        (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'C' || e.key === 'c' || e.key === 'X' || e.key === 'x' || e.key === 'V' || e.key === 'v' || e.key === 'A' || e.key === 'a' || e.key === 'S' || e.key === 's' || e.key === 'P' || e.key === 'p'))
     ) {
         e.preventDefault();
     }
 });
+
+// Prevent Copy, Cut, and Paste
+document.addEventListener('copy', function(e) { e.preventDefault(); });
+document.addEventListener('cut', function(e) { e.preventDefault(); });
+document.addEventListener('paste', function(e) { e.preventDefault(); });
+
+// Prevent text selection (except in input and textarea)
+document.addEventListener('selectstart', function(e) {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+    }
+});
+
+// Prevent drag and drop of images/text
+document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
 
 // ==========================================
 // UI: Custom Toast Notification
