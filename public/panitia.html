@@ -21,24 +21,14 @@
         </div>
 
         <!-- SLOT INFO BANNER -->
-        <div id="slot-info-banner" style="
-            background: linear-gradient(135deg, #1a3a2f 0%, #1a4a35 100%);
-            border-left: 5px solid #22c55e;
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            box-shadow: 0 4px 15px rgba(34,197,94,0.2);
-        ">
-            <div style="font-size: 28px; flex-shrink:0;">📛</div>
-            <div>
-                <p style="font-size:15px; font-weight:700; color:#86efac; margin:0 0 3px 0; letter-spacing:0.3px;">KUOTA PENDAFTARAN PANITIA</p>
-                <p style="font-size:13px; color:#cbd5e1; margin:0;">Kuota panitia sangat terbatas. Pastikan Anda mendaftar sebelum posisi terisi penuh.</p>
-                <p style="margin: 8px 0 0 0;">
-                    <span id="slot-tersisa" style="font-size:22px; font-weight:800; color:#4ade80;">...</span>
-                    <span style="font-size:13px; color:#94a3b8; margin-left:4px;">dari <strong style="color:#e2e8f0;">20</strong> slot tersedia</span>
+        <div id="slot-info-banner" class="rgb-banner">
+            <div class="banner-icon">📛</div>
+            <div class="banner-content">
+                <p class="banner-title">KUOTA PENDAFTARAN PANITIA</p>
+                <p class="banner-desc">Kuota panitia sangat terbatas. Pastikan Anda mendaftar sebelum posisi terisi penuh.</p>
+                <p class="banner-stats">
+                    <span id="slot-tersisa" class="slot-count">...</span>
+                    <span class="slot-total">dari <strong>20</strong> slot tersedia</span>
                 </p>
             </div>
         </div>
