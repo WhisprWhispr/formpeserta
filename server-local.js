@@ -145,16 +145,18 @@ app.post('/api/register-panitia', upload.fields([
     { name: 'bukti_hmps_if', maxCount: 1 },
     { name: 'bukti_upu', maxCount: 1 },
     { name: 'pas_foto', maxCount: 1 },
-    { name: 'bukti_pembayaran', maxCount: 1 }
+    { name: 'bukti_pembayaran', maxCount: 1 },
+    { name: 'foto_ktm', maxCount: 1 }
 ]), async (req, res) => {
     try {
         const formData = req.body;
-        let bukti_hmps_if_url = '', bukti_upu_url = '', pas_foto_url = '', bukti_pembayaran_url = '';
+        let bukti_hmps_if_url = '', bukti_upu_url = '', pas_foto_url = '', bukti_pembayaran_url = '', foto_ktm_url = '';
         if (req.files['bukti_hmps_if']) bukti_hmps_if_url = (await uploadToCloudinary(req.files['bukti_hmps_if'][0].buffer, 'panitia/bukti_hmps_if')).secure_url;
         if (req.files['bukti_upu']) bukti_upu_url = (await uploadToCloudinary(req.files['bukti_upu'][0].buffer, 'panitia/bukti_upu')).secure_url;
         if (req.files['pas_foto']) pas_foto_url = (await uploadToCloudinary(req.files['pas_foto'][0].buffer, 'panitia/pas_foto')).secure_url;
         if (req.files['bukti_pembayaran']) bukti_pembayaran_url = (await uploadToCloudinary(req.files['bukti_pembayaran'][0].buffer, 'panitia/bukti_pembayaran')).secure_url;
-        const docRef = await addDoc(collection(db, 'panitia'), { ...formData, bukti_hmps_if_url, bukti_upu_url, pas_foto_url, bukti_pembayaran_url, createdAt: new Date().toISOString() });
+        if (req.files['foto_ktm']) foto_ktm_url = (await uploadToCloudinary(req.files['foto_ktm'][0].buffer, 'panitia/foto_ktm')).secure_url;
+        const docRef = await addDoc(collection(db, 'panitia'), { ...formData, bukti_hmps_if_url, bukti_upu_url, pas_foto_url, bukti_pembayaran_url, foto_ktm_url, createdAt: new Date().toISOString() });
         res.json({ success: true, message: 'Pendaftaran panitia berhasil', id: docRef.id });
     } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });

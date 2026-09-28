@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { key: 'nama_bank', label: 'Bank' },
             { key: 'no_rekening', label: 'No Rekening' },
             { key: 'komitmen', label: 'Pernyataan Komitmen' },
+            { key: 'foto_ktm_url', label: 'Foto KTM', isImg: true },
             { key: 'pas_foto_url', label: 'Pas Foto', isImg: true },
             { key: 'bukti_pembayaran_url', label: 'Pembayaran', isImg: true }
         ],
