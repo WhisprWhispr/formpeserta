@@ -64,7 +64,8 @@ router.post('/register', upload.fields([
     { name: 'bukti_hmps_if', maxCount: 1 },
     { name: 'bukti_upu', maxCount: 1 },
     { name: 'pas_foto', maxCount: 1 },
-    { name: 'bukti_pembayaran', maxCount: 1 }
+    { name: 'bukti_pembayaran', maxCount: 1 },
+    { name: 'foto_ktm', maxCount: 1 }
 ]), async (req, res) => {
     try {
         const formData = req.body; // All text data
@@ -74,6 +75,7 @@ router.post('/register', upload.fields([
         let bukti_upu_url = '';
         let pas_foto_url = '';
         let bukti_pembayaran_url = '';
+        let foto_ktm_url = '';
 
         if (req.files['bukti_hmps_if']) {
             const result = await uploadToCloudinary(req.files['bukti_hmps_if'][0].buffer, 'pendaftaran/bukti_hmps_if');
@@ -91,6 +93,10 @@ router.post('/register', upload.fields([
             const result = await uploadToCloudinary(req.files['bukti_pembayaran'][0].buffer, 'pendaftaran/bukti_pembayaran');
             bukti_pembayaran_url = result.secure_url;
         }
+        if (req.files['foto_ktm']) {
+            const result = await uploadToCloudinary(req.files['foto_ktm'][0].buffer, 'pendaftaran/foto_ktm');
+            foto_ktm_url = result.secure_url;
+        }
 
         // Save data to Firebase Firestore
         const docRef = await addDoc(collection(db, "pendaftar"), {
@@ -99,6 +105,7 @@ router.post('/register', upload.fields([
             bukti_upu_url,
             pas_foto_url,
             bukti_pembayaran_url,
+            foto_ktm_url,
             createdAt: new Date().toISOString()
         });
 
@@ -209,6 +216,25 @@ router.post('/register-izin', upload.fields([
     } catch (error) {
         console.error('Error during surat izin registration:', error);
         res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server', error: error.message });
+    }
+});
+
+// API Endpoint untuk cek jumlah pendaftar (batas kuota)
+router.get('/count/peserta', async (req, res) => {
+    try {
+        const querySnapshot = await getDocs(collection(db, "pendaftar"));
+        res.status(200).json({ success: true, count: querySnapshot.size });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+router.get('/count/panitia', async (req, res) => {
+    try {
+        const querySnapshot = await getDocs(collection(db, "panitia"));
+        res.status(200).json({ success: true, count: querySnapshot.size });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 
