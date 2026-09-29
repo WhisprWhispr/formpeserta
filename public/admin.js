@@ -218,14 +218,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await res.json();
             if (result.success && result.data) {
                 const { deadline_peserta, deadline_panitia } = result.data;
+                const toLocalDatetime = (isoStr) => {
+                    const d = new Date(isoStr);
+                    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+                    return d.toISOString().slice(0,16);
+                };
                 if (deadline_peserta) {
-                    deadlinePeserta.value = deadline_peserta.substring(0, 16);
+                    deadlinePeserta.value = toLocalDatetime(deadline_peserta);
                     const isClosed = new Date() > new Date(deadline_peserta);
                     statusPeserta.textContent = isClosed ? 'Status: DITUTUP' : 'Status: TERBUKA';
                     statusPeserta.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
                 }
                 if (deadline_panitia) {
-                    deadlinePanitia.value = deadline_panitia.substring(0, 16);
+                    deadlinePanitia.value = toLocalDatetime(deadline_panitia);
                     const isClosed = new Date() > new Date(deadline_panitia);
                     statusPanitia.textContent = isClosed ? 'Status: DITUTUP' : 'Status: TERBUKA';
                     statusPanitia.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
