@@ -18,6 +18,7 @@
             <a class="nav-link" data-target="panitia">&#128101; Data Panitia</a>
             <a class="nav-link" data-target="surat-izin">&#128196; Pengajuan Surat Izin</a>
             <a class="nav-link nav-link-settings" data-target="pengaturan">&#9881;&#65039; Pengaturan</a>
+            <button onclick="logoutAdmin()" class="nav-link" style="color: #ef4444; border:none; background:none; text-align:left; cursor:pointer; width:100%; font-size:inherit; font-family:inherit;">&#128682; Logout</button>
         </nav>
     </aside>
 
@@ -79,5 +80,89 @@
 
     <script src="admin.js"></script>
     <script src="security_and_ui.js"></script>
+
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
+            <h2>Admin Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="admin-email">Email</label>
+                    <input type="email" id="admin-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <button type="submit" id="btn-login" class="btn-login">Login</button>
+                <div id="login-error" class="login-error hidden"></div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA-rkX-zwdDT6NRprMatMCbKbJy60ZCYno",
+            authDomain: "from-daftar.firebaseapp.com",
+            projectId: "from-daftar",
+            storageBucket: "from-daftar.firebasestorage.app",
+            messagingSenderId: "192205202622",
+            appId: "1:192205202622:web:eae40bc97fcfa2801aaaef",
+            measurementId: "G-L5MG9WPGGE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginOverlay = document.getElementById('login-overlay');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const btnLogin = document.getElementById('btn-login');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                loginOverlay.classList.add('hidden');
+                if (window.initDashboard) {
+                    window.initDashboard();
+                }
+            } else {
+                // No user is signed in
+                loginOverlay.classList.remove('hidden');
+            }
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            btnLogin.textContent = 'Memproses...';
+            btnLogin.disabled = true;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    btnLogin.textContent = 'Login';
+                    btnLogin.disabled = false;
+                    loginError.classList.add('hidden');
+                })
+                .catch((error) => {
+                    btnLogin.textContent = 'Login';
+                    btnLogin.disabled = false;
+                    loginError.textContent = 'Login gagal: ' + error.message;
+                    loginError.classList.remove('hidden');
+                });
+        });
+
+        window.logoutAdmin = () => {
+            signOut(auth).then(() => {
+                location.reload();
+            }).catch((error) => {
+                console.error(error);
+            });
+        };
+    </script>
 </body>
 </html>

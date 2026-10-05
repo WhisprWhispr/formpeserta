@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.initDashboard = () => {
     const navLinks = document.querySelectorAll('.nav-link');
     const pageTitle = document.getElementById('page-title');
     const loading = document.getElementById('loading');
@@ -295,4 +295,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial fetch
     fetchAndRender(currentCategory);
-});
+};
