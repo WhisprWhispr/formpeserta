@@ -180,7 +180,7 @@
                 .catch((error) => {
                     btnLogin.textContent = 'Login';
                     btnLogin.disabled = false;
-                    loginError.textContent = 'Login gagal: ' + error.message;
+                    loginError.textContent = 'Email atau password salah. Silakan coba lagi.';
                     loginError.classList.remove('hidden');
                 });
         });
