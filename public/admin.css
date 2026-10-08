@@ -428,6 +428,33 @@ tbody tr:hover {
     border-color: #818cf8;
     box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.15);
 }
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.login-card .password-wrapper input {
+    padding-right: 48px;
+}
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+.toggle-password:hover {
+    color: #cbd5e1;
+}
+.toggle-password .hidden {
+    display: none;
+}
 .login-card .btn-login {
     width: 100%;
     padding: 16px;
