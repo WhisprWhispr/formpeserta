@@ -240,19 +240,60 @@ window.initDashboard = () => {
         }
     };
 
+    const autoSaveToggle = async (field, value, label) => {
+        try {
+            localStorage.setItem(field, value ? 'true' : 'false');
+            if (typeof window.showToast === 'function') {
+                window.showToast('Menyimpan perubahan...', 'info');
+            }
+            const res = await fetch('/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ [field]: Boolean(value) })
+            });
+            const result = await res.json();
+            if (result.success) {
+                if (typeof window.showToast === 'function') {
+                    window.showToast(label + (value ? ' diaktifkan (ON)' : ' dimatikan (OFF)'), 'success');
+                }
+            } else {
+                throw new Error(result.error || result.message || 'Gagal menyimpan');
+            }
+        } catch (err) {
+            console.error('Auto-save error:', err);
+            if (typeof window.showToast === 'function') {
+                window.showToast('Gagal auto-save: ' + err.message, 'error');
+            }
+        }
+    };
+
     if (hideKuotaPeserta) {
         hideKuotaPeserta.addEventListener('change', (e) => {
             updateKuotaPesertaStatus(e.target.checked);
+            autoSaveToggle('hide_kuota_peserta', e.target.checked, 'Sembunyikan kuota peserta');
         });
     }
 
     if (hideKuotaPanitia) {
         hideKuotaPanitia.addEventListener('change', (e) => {
             updateKuotaPanitiaStatus(e.target.checked);
+            autoSaveToggle('hide_kuota_panitia', e.target.checked, 'Sembunyikan kuota panitia');
         });
     }
 
     const loadSettings = async () => {
+        // Fast UI response from localStorage cache
+        const cachedHidePeserta = localStorage.getItem('hide_kuota_peserta');
+        if (cachedHidePeserta !== null && hideKuotaPeserta) {
+            hideKuotaPeserta.checked = cachedHidePeserta === 'true';
+            updateKuotaPesertaStatus(hideKuotaPeserta.checked);
+        }
+        const cachedHidePanitia = localStorage.getItem('hide_kuota_panitia');
+        if (cachedHidePanitia !== null && hideKuotaPanitia) {
+            hideKuotaPanitia.checked = cachedHidePanitia === 'true';
+            updateKuotaPanitiaStatus(hideKuotaPanitia.checked);
+        }
+
         try {
             const res = await fetch('/api/settings');
             const result = await res.json();
@@ -276,15 +317,19 @@ window.initDashboard = () => {
                     statusPanitia.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
                 }
                 if (hideKuotaPeserta) {
-                    hideKuotaPeserta.checked = Boolean(hide_kuota_peserta);
-                    updateKuotaPesertaStatus(hideKuotaPeserta.checked);
+                    const isHidden = Boolean(hide_kuota_peserta);
+                    hideKuotaPeserta.checked = isHidden;
+                    localStorage.setItem('hide_kuota_peserta', isHidden ? 'true' : 'false');
+                    updateKuotaPesertaStatus(isHidden);
                 }
                 if (kuotaPeserta) {
                     kuotaPeserta.value = kuota_peserta !== undefined ? kuota_peserta : 25;
                 }
                 if (hideKuotaPanitia) {
-                    hideKuotaPanitia.checked = Boolean(hide_kuota_panitia);
-                    updateKuotaPanitiaStatus(hideKuotaPanitia.checked);
+                    const isHiddenPanitia = Boolean(hide_kuota_panitia);
+                    hideKuotaPanitia.checked = isHiddenPanitia;
+                    localStorage.setItem('hide_kuota_panitia', isHiddenPanitia ? 'true' : 'false');
+                    updateKuotaPanitiaStatus(isHiddenPanitia);
                 }
                 if (kuotaPanitia) {
                     kuotaPanitia.value = kuota_panitia !== undefined ? kuota_panitia : 20;
@@ -322,6 +367,12 @@ window.initDashboard = () => {
             });
             const result = await res.json();
             if (result.success) {
+                if (hideKuotaPeserta) {
+                    localStorage.setItem('hide_kuota_peserta', hideKuotaPeserta.checked ? 'true' : 'false');
+                }
+                if (hideKuotaPanitia) {
+                    localStorage.setItem('hide_kuota_panitia', hideKuotaPanitia.checked ? 'true' : 'false');
+                }
                 if (typeof window.showToast === 'function') window.showToast('Pengaturan berhasil disimpan!', 'success');
                 loadSettings();
             } else {
@@ -336,27 +387,44 @@ window.initDashboard = () => {
     });
 
     // ========================
-    // NAV TAB LOGIC
+    // NAV TAB LOGIC & RESTORE
     // ========================
+    const savedTab = localStorage.getItem('admin_active_tab') || 'peserta';
+
+    const switchTab = (targetCategory) => {
+        currentCategory = targetCategory;
+        localStorage.setItem('admin_active_tab', currentCategory);
+
+        navLinks.forEach(nav => {
+            if (nav.getAttribute('data-target') === currentCategory) {
+                nav.classList.add('active');
+            } else {
+                nav.classList.remove('active');
+            }
+        });
+
+        if (currentCategory === 'pengaturan') {
+            pageTitle.textContent = '⚙️ Pengaturan';
+            panelData.classList.add('hidden');
+            panelSettings.classList.remove('hidden');
+            loadSettings();
+        } else {
+            const activeNav = Array.from(navLinks).find(n => n.getAttribute('data-target') === currentCategory);
+            pageTitle.textContent = activeNav ? activeNav.textContent.trim() : 'Data Peserta';
+            panelSettings.classList.add('hidden');
+            panelData.classList.remove('hidden');
+            fetchAndRender(currentCategory);
+        }
+    };
+
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            navLinks.forEach(nav => nav.classList.remove('active'));
-            e.target.classList.add('active');
-            pageTitle.textContent = e.target.textContent.trim();
-            currentCategory = e.target.getAttribute('data-target');
-
-            if (currentCategory === 'pengaturan') {
-                panelData.classList.add('hidden');
-                panelSettings.classList.remove('hidden');
-                loadSettings();
-            } else {
-                panelSettings.classList.add('hidden');
-                panelData.classList.remove('hidden');
-                fetchAndRender(currentCategory);
-            }
+            const target = e.currentTarget.getAttribute('data-target');
+            if (target) switchTab(target);
         });
     });
 
-    // Initial fetch
-    fetchAndRender(currentCategory);
+    // Load initial settings and restore tab
+    loadSettings();
+    switchTab(savedTab);
 };

@@ -301,13 +301,19 @@ router.get('/settings', async (req, res) => {
 
 router.post('/settings', async (req, res) => {
     try {
+        let body = req.body;
+        if (typeof body === 'string') {
+            try { body = JSON.parse(body); } catch (e) { body = {}; }
+        }
+        body = body || {};
+
         const updateData = {};
-        if (req.body.deadline_peserta !== undefined) updateData.deadline_peserta = req.body.deadline_peserta;
-        if (req.body.deadline_panitia !== undefined) updateData.deadline_panitia = req.body.deadline_panitia;
-        if (req.body.hide_kuota_peserta !== undefined) updateData.hide_kuota_peserta = Boolean(req.body.hide_kuota_peserta);
-        if (req.body.hide_kuota_panitia !== undefined) updateData.hide_kuota_panitia = Boolean(req.body.hide_kuota_panitia);
-        if (req.body.kuota_peserta !== undefined) updateData.kuota_peserta = Number(req.body.kuota_peserta) || 25;
-        if (req.body.kuota_panitia !== undefined) updateData.kuota_panitia = Number(req.body.kuota_panitia) || 20;
+        if (body.deadline_peserta !== undefined) updateData.deadline_peserta = body.deadline_peserta;
+        if (body.deadline_panitia !== undefined) updateData.deadline_panitia = body.deadline_panitia;
+        if (body.hide_kuota_peserta !== undefined) updateData.hide_kuota_peserta = Boolean(body.hide_kuota_peserta);
+        if (body.hide_kuota_panitia !== undefined) updateData.hide_kuota_panitia = Boolean(body.hide_kuota_panitia);
+        if (body.kuota_peserta !== undefined) updateData.kuota_peserta = Number(body.kuota_peserta) || 25;
+        if (body.kuota_panitia !== undefined) updateData.kuota_panitia = Number(body.kuota_panitia) || 20;
 
         await setDoc(doc(db, 'settings', 'pendaftaran'), updateData, { merge: true });
         res.json({ success: true, message: 'Pengaturan disimpan' });
