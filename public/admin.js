@@ -210,31 +210,88 @@ window.initDashboard = () => {
     const deadlinePanitia = document.getElementById('deadline-panitia');
     const statusPeserta = document.getElementById('status-peserta');
     const statusPanitia = document.getElementById('status-panitia');
+    const hideKuotaPeserta = document.getElementById('hide-kuota-peserta');
+    const statusKuotaPeserta = document.getElementById('status-kuota-peserta');
+    const kuotaPeserta = document.getElementById('kuota-peserta');
+    const hideKuotaPanitia = document.getElementById('hide-kuota-panitia');
+    const statusKuotaPanitia = document.getElementById('status-kuota-panitia');
+    const kuotaPanitia = document.getElementById('kuota-panitia');
     const btnSave = document.getElementById('btn-save-settings');
+
+    const updateKuotaPesertaStatus = (isHidden) => {
+        if (!statusKuotaPeserta) return;
+        if (isHidden) {
+            statusKuotaPeserta.textContent = '🔒 Status: Jumlah & Batasan Kuota Peserta Tersembunyi (HIDDEN)';
+            statusKuotaPeserta.className = 'settings-status hidden-mode';
+        } else {
+            statusKuotaPeserta.textContent = '🌐 Status: Jumlah & Batasan Kuota Peserta Ditampilkan (PUBLIC)';
+            statusKuotaPeserta.className = 'settings-status visible-mode';
+        }
+    };
+
+    const updateKuotaPanitiaStatus = (isHidden) => {
+        if (!statusKuotaPanitia) return;
+        if (isHidden) {
+            statusKuotaPanitia.textContent = '🔒 Status: Jumlah & Batasan Kuota Panitia Tersembunyi (HIDDEN)';
+            statusKuotaPanitia.className = 'settings-status hidden-mode';
+        } else {
+            statusKuotaPanitia.textContent = '🌐 Status: Jumlah & Batasan Kuota Panitia Ditampilkan (PUBLIC)';
+            statusKuotaPanitia.className = 'settings-status visible-mode';
+        }
+    };
+
+    if (hideKuotaPeserta) {
+        hideKuotaPeserta.addEventListener('change', (e) => {
+            updateKuotaPesertaStatus(e.target.checked);
+        });
+    }
+
+    if (hideKuotaPanitia) {
+        hideKuotaPanitia.addEventListener('change', (e) => {
+            updateKuotaPanitiaStatus(e.target.checked);
+        });
+    }
 
     const loadSettings = async () => {
         try {
             const res = await fetch('/api/settings');
             const result = await res.json();
             if (result.success && result.data) {
-                const { deadline_peserta, deadline_panitia } = result.data;
+                const { deadline_peserta, deadline_panitia, hide_kuota_peserta, hide_kuota_panitia, kuota_peserta, kuota_panitia } = result.data;
                 const toLocalDatetime = (isoStr) => {
                     const d = new Date(isoStr);
                     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
                     return d.toISOString().slice(0,16);
                 };
-                if (deadline_peserta) {
+                if (deadline_peserta && deadlinePeserta) {
                     deadlinePeserta.value = toLocalDatetime(deadline_peserta);
                     const isClosed = new Date() > new Date(deadline_peserta);
                     statusPeserta.textContent = isClosed ? 'Status: DITUTUP' : 'Status: TERBUKA';
                     statusPeserta.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
                 }
-                if (deadline_panitia) {
+                if (deadline_panitia && deadlinePanitia) {
                     deadlinePanitia.value = toLocalDatetime(deadline_panitia);
                     const isClosed = new Date() > new Date(deadline_panitia);
                     statusPanitia.textContent = isClosed ? 'Status: DITUTUP' : 'Status: TERBUKA';
                     statusPanitia.className = 'settings-status ' + (isClosed ? 'closed' : 'open');
                 }
+                if (hideKuotaPeserta) {
+                    hideKuotaPeserta.checked = Boolean(hide_kuota_peserta);
+                    updateKuotaPesertaStatus(hideKuotaPeserta.checked);
+                }
+                if (kuotaPeserta) {
+                    kuotaPeserta.value = kuota_peserta !== undefined ? kuota_peserta : 25;
+                }
+                if (hideKuotaPanitia) {
+                    hideKuotaPanitia.checked = Boolean(hide_kuota_panitia);
+                    updateKuotaPanitiaStatus(hideKuotaPanitia.checked);
+                }
+                if (kuotaPanitia) {
+                    kuotaPanitia.value = kuota_panitia !== undefined ? kuota_panitia : 20;
+                }
+            } else {
+                updateKuotaPesertaStatus(false);
+                updateKuotaPanitiaStatus(false);
             }
         } catch (e) {
             console.error('Gagal memuat pengaturan', e);
@@ -242,19 +299,26 @@ window.initDashboard = () => {
     };
 
     btnSave.addEventListener('click', async () => {
-        const dp = deadlinePeserta.value;
-        const dpa = deadlinePanitia.value;
-        if (!dp || !dpa) {
-            if (typeof window.showToast === 'function') window.showToast('Harap isi kedua tanggal batas pendaftaran!', 'error');
-            return;
-        }
+        const dp = deadlinePeserta ? deadlinePeserta.value : '';
+        const dpa = deadlinePanitia ? deadlinePanitia.value : '';
+
+        const payload = {
+            hide_kuota_peserta: hideKuotaPeserta ? hideKuotaPeserta.checked : false,
+            hide_kuota_panitia: hideKuotaPanitia ? hideKuotaPanitia.checked : false,
+            kuota_peserta: kuotaPeserta ? (parseInt(kuotaPeserta.value) || 25) : 25,
+            kuota_panitia: kuotaPanitia ? (parseInt(kuotaPanitia.value) || 20) : 20
+        };
+
+        if (dp) payload.deadline_peserta = new Date(dp).toISOString();
+        if (dpa) payload.deadline_panitia = new Date(dpa).toISOString();
+
         try {
             btnSave.disabled = true;
             btnSave.textContent = 'Menyimpan...';
             const res = await fetch('/api/settings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ deadline_peserta: new Date(dp).toISOString(), deadline_panitia: new Date(dpa).toISOString() })
+                body: JSON.stringify(payload)
             });
             const result = await res.json();
             if (result.success) {

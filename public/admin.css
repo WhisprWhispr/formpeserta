@@ -336,6 +336,102 @@ tbody tr:hover {
     background: #fee2e2;
     color: #991b1b;
 }
+.settings-status.hidden-mode {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+.settings-status.visible-mode {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+/* Toggle Switch & Container */
+.settings-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    gap: 16px;
+    transition: all 0.2s ease;
+}
+.settings-toggle-container:hover {
+    border-color: #cbd5e1;
+    background: #f1f5f9;
+}
+.toggle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.toggle-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.toggle-subtitle {
+    font-size: 0.8rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+.settings-hint {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Switch Component */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    flex-shrink: 0;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 28px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.switch input:checked + .slider {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+.switch input:focus + .slider {
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+.switch input:checked + .slider:before {
+    transform: translateX(22px);
+}
 .settings-divider {
     border: none;
     border-top: 1px solid #e5e7eb;

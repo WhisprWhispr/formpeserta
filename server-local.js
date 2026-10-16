@@ -112,8 +112,15 @@ app.get('/api/settings', async (req, res) => {
 
 app.post('/api/settings', async (req, res) => {
     try {
-        const { deadline_peserta, deadline_panitia } = req.body;
-        await setDoc(doc(db, 'settings', 'pendaftaran'), { deadline_peserta, deadline_panitia }, { merge: true });
+        const updateData = {};
+        if (req.body.deadline_peserta !== undefined) updateData.deadline_peserta = req.body.deadline_peserta;
+        if (req.body.deadline_panitia !== undefined) updateData.deadline_panitia = req.body.deadline_panitia;
+        if (req.body.hide_kuota_peserta !== undefined) updateData.hide_kuota_peserta = Boolean(req.body.hide_kuota_peserta);
+        if (req.body.hide_kuota_panitia !== undefined) updateData.hide_kuota_panitia = Boolean(req.body.hide_kuota_panitia);
+        if (req.body.kuota_peserta !== undefined) updateData.kuota_peserta = Number(req.body.kuota_peserta) || 25;
+        if (req.body.kuota_panitia !== undefined) updateData.kuota_panitia = Number(req.body.kuota_panitia) || 20;
+
+        await setDoc(doc(db, 'settings', 'pendaftaran'), updateData, { merge: true });
         res.json({ success: true, message: 'Pengaturan disimpan' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });

@@ -28,71 +28,96 @@
         inputs.forEach(function(el) { el.disabled = true; });
     };
 
-    // Cek kuota peserta (maks 25)
-    fetch('/api/count/peserta')
-        .then(function(r) { return r.json(); })
-        .then(function(result) {
-            if (result.success) {
-                var terisi = result.count;
-                var maks = 25;
-                var sisa = maks - terisi;
-                if (sisa < 0) sisa = 0;
+    // Cek kuota dan deadline dari settings
+    Promise.all([
+        fetch('/api/settings').then(function(r) { return r.json(); }).catch(function() { return {}; }),
+        fetch('/api/count/peserta').then(function(r) { return r.json(); }).catch(function() { return {}; })
+    ]).then(function(results) {
+        var settingsRes = results[0];
+        var countRes = results[1];
+        var settings = (settingsRes && settingsRes.success && settingsRes.data) ? settingsRes.data : {};
+        var bannerEl = document.getElementById('slot-info-banner');
+        var slotEl = document.getElementById('slot-tersisa');
+        var isHidden = Boolean(settings.hide_kuota_peserta);
+        var maks = settings.kuota_peserta ? parseInt(settings.kuota_peserta) : 25;
 
-                var slotEl = document.getElementById('slot-tersisa');
-                var bannerEl = document.getElementById('slot-info-banner');
+        // Update batasan kuota di tampilan jika banner aktif
+        var slotTotalStrong = document.querySelector('#slot-info-banner .slot-total strong');
+        if (slotTotalStrong) {
+            slotTotalStrong.textContent = maks;
+        }
 
-                if (slotEl) slotEl.textContent = sisa + ' slot';
+        // Jika fitur hidden ON, sembunyikan banner kuota & batasan peserta
+        if (isHidden) {
+            if (bannerEl) {
+                bannerEl.classList.add('slot-banner-hidden');
+                bannerEl.style.setProperty('display', 'none', 'important');
+            }
+        } else {
+            if (bannerEl) {
+                bannerEl.classList.remove('slot-banner-hidden');
+                bannerEl.style.display = 'flex';
+            }
+        }
 
-                // Ubah warna banner jika slot hampir habis atau habis
+        // Cek kuota terisi
+        if (countRes && countRes.success) {
+            var terisi = countRes.count || 0;
+            var sisa = maks - terisi;
+            if (sisa < 0) sisa = 0;
+
+            if (slotEl) slotEl.textContent = sisa + ' slot';
+
+            // Ubah warna banner jika slot hampir habis atau habis (hanya bila banner tidak di-hide)
+            if (!isHidden && bannerEl) {
                 if (sisa === 0) {
-                    if (bannerEl) {
-                        bannerEl.style.background = 'linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%)';
-                        bannerEl.style.borderLeftColor = '#ef4444';
-                    }
+                    bannerEl.style.background = 'linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%)';
+                    bannerEl.style.borderLeftColor = '#ef4444';
                     if (slotEl) slotEl.style.color = '#f87171';
                 } else if (sisa <= 5) {
-                    if (bannerEl) {
-                        bannerEl.style.background = 'linear-gradient(135deg, #431407 0%, #7c2d12 100%)';
-                        bannerEl.style.borderLeftColor = '#f97316';
-                    }
+                    bannerEl.style.background = 'linear-gradient(135deg, #431407 0%, #7c2d12 100%)';
+                    bannerEl.style.borderLeftColor = '#f97316';
                     if (slotEl) slotEl.style.color = '#fb923c';
                 }
-
-                if (terisi >= maks) {
-                    tutupForm(
-                        '&#128680; Kuota Pendaftaran Penuh',
-                        'Kuota peserta sebanyak <strong>25 orang</strong> telah terpenuhi. Pendaftaran ditutup.'
-                    );
-                }
             }
-        })
-        .catch(function() {});
 
-    // Cek deadline dari settings
-    fetch('/api/settings')
-        .then(function(r) { return r.json(); })
-        .then(function(result) {
-            if (result.success && result.data && result.data.deadline_peserta) {
-                var deadline = new Date(result.data.deadline_peserta);
-                var spanBatas = document.getElementById('batas-pembayaran');
-                if (spanBatas) spanBatas.textContent = formatTanggal(result.data.deadline_peserta);
-
-                // Jika sudah lewat deadline, tutup form
-                if (new Date() > deadline) {
+            if (terisi >= maks) {
+                if (isHidden) {
                     tutupForm(
                         '&#128680; Pendaftaran Telah Ditutup',
-                        'Batas waktu pendaftaran telah berakhir. Form tidak dapat diisi lagi.'
+                        'Batas kuota pendaftaran telah terpenuhi. Form tidak dapat diisi lagi.'
+                    );
+                } else {
+                    tutupForm(
+                        '&#128680; Kuota Pendaftaran Penuh',
+                        'Kuota peserta sebanyak <strong>' + maks + ' orang</strong> telah terpenuhi. Pendaftaran ditutup.'
                     );
                 }
-            } else {
-                var spanBatas = document.getElementById('batas-pembayaran');
-                if (spanBatas) spanBatas.textContent = '20 September 2026, pukul 23.59 WIB';
             }
-        })
-        .catch(function() {
+        }
+
+        // Cek deadline dari settings
+        if (settings.deadline_peserta) {
+            var deadline = new Date(settings.deadline_peserta);
+            var spanBatas = document.getElementById('batas-pembayaran');
+            if (spanBatas) spanBatas.textContent = formatTanggal(settings.deadline_peserta);
+
+            // Jika sudah lewat deadline, tutup form
+            if (new Date() > deadline) {
+                tutupForm(
+                    '&#128680; Pendaftaran Telah Ditutup',
+                    'Batas waktu pendaftaran telah berakhir. Form tidak dapat diisi lagi.'
+                );
+            }
+        } else {
             var spanBatas = document.getElementById('batas-pembayaran');
             if (spanBatas) spanBatas.textContent = '20 September 2026, pukul 23.59 WIB';
-        });
+        }
+    }).catch(function(err) {
+        console.error('Error loading settings or count:', err);
+        var spanBatas = document.getElementById('batas-pembayaran');
+        if (spanBatas) spanBatas.textContent = '20 September 2026, pukul 23.59 WIB';
+    });
 }());
 
 

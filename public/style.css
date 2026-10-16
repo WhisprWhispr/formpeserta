@@ -146,6 +146,9 @@ form {
 }
 
 /* RGB Banner Styling */
+.slot-banner-hidden {
+    display: none !important;
+}
 .rgb-banner {
     position: relative;
     background: rgba(15, 23, 42, 0.8);
