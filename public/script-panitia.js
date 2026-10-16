@@ -81,18 +81,13 @@
                 }
             }
 
-            if (terisi >= maks) {
-                if (isHidden) {
-                    tutupForm(
-                        '&#128680; Pendaftaran Panitia Telah Ditutup',
-                        'Batas kuota pendaftaran panitia telah terpenuhi. Form tidak dapat diisi lagi.'
-                    );
-                } else {
-                    tutupForm(
-                        '&#128680; Kuota Panitia Penuh',
-                        'Kuota panitia sebanyak <strong>' + maks + ' orang</strong> telah terpenuhi. Pendaftaran ditutup.'
-                    );
-                }
+            // Jika fitur hidden ON, BATASAN KUOTA TIDAK BERLAKU (Pendaftaran tanpa batas/unlimited)
+            // Kuota hanya dicek dan menutup formulir jika fitur hidden OFF
+            if (!isHidden && terisi >= maks) {
+                tutupForm(
+                    '&#128680; Kuota Panitia Penuh',
+                    'Kuota panitia sebanyak <strong>' + maks + ' orang</strong> telah terpenuhi. Pendaftaran ditutup.'
+                );
             }
         }
 

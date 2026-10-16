@@ -221,10 +221,10 @@ window.initDashboard = () => {
     const updateKuotaPesertaStatus = (isHidden) => {
         if (!statusKuotaPeserta) return;
         if (isHidden) {
-            statusKuotaPeserta.textContent = '🔒 Status: Jumlah & Batasan Kuota Peserta Tersembunyi (HIDDEN)';
+            statusKuotaPeserta.textContent = '🔒 Status: Jumlah Disembunyikan & Pendaftaran Tanpa Batas (UNLIMITED)';
             statusKuotaPeserta.className = 'settings-status hidden-mode';
         } else {
-            statusKuotaPeserta.textContent = '🌐 Status: Jumlah & Batasan Kuota Peserta Ditampilkan (PUBLIC)';
+            statusKuotaPeserta.textContent = '🌐 Status: Jumlah Ditampilkan & Kuota Dibatasi (PUBLIC)';
             statusKuotaPeserta.className = 'settings-status visible-mode';
         }
     };
@@ -232,10 +232,10 @@ window.initDashboard = () => {
     const updateKuotaPanitiaStatus = (isHidden) => {
         if (!statusKuotaPanitia) return;
         if (isHidden) {
-            statusKuotaPanitia.textContent = '🔒 Status: Jumlah & Batasan Kuota Panitia Tersembunyi (HIDDEN)';
+            statusKuotaPanitia.textContent = '🔒 Status: Jumlah Disembunyikan & Pendaftaran Tanpa Batas (UNLIMITED)';
             statusKuotaPanitia.className = 'settings-status hidden-mode';
         } else {
-            statusKuotaPanitia.textContent = '🌐 Status: Jumlah & Batasan Kuota Panitia Ditampilkan (PUBLIC)';
+            statusKuotaPanitia.textContent = '🌐 Status: Jumlah Ditampilkan & Kuota Dibatasi (PUBLIC)';
             statusKuotaPanitia.className = 'settings-status visible-mode';
         }
     };
