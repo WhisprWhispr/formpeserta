@@ -122,34 +122,70 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     const form = e.target;
     const submitBtn = document.getElementById('submitBtn');
     const loadingOverlay = document.getElementById('loadingOverlay');
-
-    // Create FormData object
-    const formData = new FormData(form);
+    const loadingText = loadingOverlay ? loadingOverlay.querySelector('p') : null;
 
     // Disable button and show loading
     submitBtn.disabled = true;
+    if (loadingText) loadingText.textContent = 'Memproses & mengompres foto...';
     loadingOverlay.classList.remove('hidden');
 
     try {
+        // Create FormData object
+        const formData = new FormData(form);
+
+        // Kompres setiap file gambar sebelum dikirim
+        const compressFn = window.compressImageFile || function(file) { return Promise.resolve(file); };
+        const fileInputs = form.querySelectorAll('input[type="file"]');
+        for (const input of fileInputs) {
+            if (input.files && input.files[0]) {
+                const originalFile = input.files[0];
+                if (originalFile.type && originalFile.type.startsWith('image/')) {
+                    if (loadingText) loadingText.textContent = 'Mengompres foto (' + (input.name || 'file') + ')...';
+                    const compressed = await compressFn(originalFile, 1280, 1280, 0.75);
+                    formData.set(input.name, compressed, compressed.name || (input.name + '.jpg'));
+                }
+            }
+        }
+
+        if (loadingText) loadingText.textContent = 'Mengunggah formulir pendaftaran...';
+
         const response = await fetch('/api/register', {
             method: 'POST',
-            body: formData // FormData will automatically set the Content-Type to multipart/form-data
+            body: formData
         });
 
-        const result = await response.json();
+        let result = null;
+        const responseText = await response.text();
+        try {
+            result = JSON.parse(responseText);
+        } catch (jsonErr) {
+            result = null;
+        }
 
-        if (response.ok && result.success) {
+        if (response.ok && result && result.success) {
             // Redirect ke halaman sukses dengan link grup WA
             window.location.href = '/success.html';
         } else {
-            showToast('Terjadi kesalahan: ' + (result.message || 'Gagal mendaftar.'), 'error');
+            let errorMsg = 'Gagal mendaftar.';
+            if (result && result.message) {
+                errorMsg = result.message;
+            } else if (response.status === 413) {
+                errorMsg = 'Ukuran file foto terlalu besar (melebihi batas server). Silakan gunakan foto yang lebih kecil.';
+            } else if (response.status === 504 || response.status === 502) {
+                errorMsg = 'Server sedang sibuk atau timeout. Silakan coba kirim ulang.';
+            } else if (!response.ok) {
+                errorMsg = 'Server merespons error (' + response.status + ').';
+            }
+            showToast('Terjadi kesalahan: ' + errorMsg, 'error');
         }
     } catch (error) {
         console.error('Error submitting form:', error);
-        showToast('Terjadi kesalahan koneksi atau server. Silakan coba lagi.', 'error');
+        showToast('Terjadi kesalahan koneksi atau server: ' + (error.message || 'Silakan coba lagi.'), 'error');
     } finally {
         // Re-enable button and hide loading
         submitBtn.disabled = false;
+        if (loadingText) loadingText.textContent = 'Mengirim data...';
         loadingOverlay.classList.add('hidden');
     }
 });
+

@@ -143,12 +143,30 @@ app.post('/api/register', upload.fields([
 ]), async (req, res) => {
     try {
         const formData = req.body;
-        let bukti_hmps_if_url = '', bukti_upu_url = '', pas_foto_url = '', bukti_pembayaran_url = '', foto_ktm_url = '';
-        if (req.files['bukti_hmps_if']) bukti_hmps_if_url = (await uploadToCloudinary(req.files['bukti_hmps_if'][0].buffer, 'pendaftaran/bukti_hmps_if')).secure_url;
-        if (req.files['bukti_upu']) bukti_upu_url = (await uploadToCloudinary(req.files['bukti_upu'][0].buffer, 'pendaftaran/bukti_upu')).secure_url;
-        if (req.files['pas_foto']) pas_foto_url = (await uploadToCloudinary(req.files['pas_foto'][0].buffer, 'pendaftaran/pas_foto')).secure_url;
-        if (req.files['bukti_pembayaran']) bukti_pembayaran_url = (await uploadToCloudinary(req.files['bukti_pembayaran'][0].buffer, 'pendaftaran/bukti_pembayaran')).secure_url;
-        if (req.files['foto_ktm']) foto_ktm_url = (await uploadToCloudinary(req.files['foto_ktm'][0].buffer, 'pendaftaran/foto_ktm')).secure_url;
+        const files = req.files || {};
+
+        const uploadTasks = [
+            files['bukti_hmps_if'] ? uploadToCloudinary(files['bukti_hmps_if'][0].buffer, 'pendaftaran/bukti_hmps_if') : Promise.resolve(null),
+            files['bukti_upu'] ? uploadToCloudinary(files['bukti_upu'][0].buffer, 'pendaftaran/bukti_upu') : Promise.resolve(null),
+            files['pas_foto'] ? uploadToCloudinary(files['pas_foto'][0].buffer, 'pendaftaran/pas_foto') : Promise.resolve(null),
+            files['bukti_pembayaran'] ? uploadToCloudinary(files['bukti_pembayaran'][0].buffer, 'pendaftaran/bukti_pembayaran') : Promise.resolve(null),
+            files['foto_ktm'] ? uploadToCloudinary(files['foto_ktm'][0].buffer, 'pendaftaran/foto_ktm') : Promise.resolve(null)
+        ];
+
+        const [
+            bukti_hmps_if_res,
+            bukti_upu_res,
+            pas_foto_res,
+            bukti_pembayaran_res,
+            foto_ktm_res
+        ] = await Promise.all(uploadTasks);
+
+        const bukti_hmps_if_url = bukti_hmps_if_res ? bukti_hmps_if_res.secure_url : '';
+        const bukti_upu_url = bukti_upu_res ? bukti_upu_res.secure_url : '';
+        const pas_foto_url = pas_foto_res ? pas_foto_res.secure_url : '';
+        const bukti_pembayaran_url = bukti_pembayaran_res ? bukti_pembayaran_res.secure_url : '';
+        const foto_ktm_url = foto_ktm_res ? foto_ktm_res.secure_url : '';
+
         const docRef = await addDoc(collection(db, 'pendaftar'), { ...formData, bukti_hmps_if_url, bukti_upu_url, pas_foto_url, bukti_pembayaran_url, foto_ktm_url, createdAt: new Date().toISOString() });
         res.json({ success: true, message: 'Pendaftaran berhasil', id: docRef.id });
     } catch (e) { res.status(500).json({ success: false, message: e.message }); }
@@ -163,12 +181,30 @@ app.post('/api/register-panitia', upload.fields([
 ]), async (req, res) => {
     try {
         const formData = req.body;
-        let bukti_hmps_if_url = '', bukti_upu_url = '', pas_foto_url = '', bukti_pembayaran_url = '', foto_ktm_url = '';
-        if (req.files['bukti_hmps_if']) bukti_hmps_if_url = (await uploadToCloudinary(req.files['bukti_hmps_if'][0].buffer, 'panitia/bukti_hmps_if')).secure_url;
-        if (req.files['bukti_upu']) bukti_upu_url = (await uploadToCloudinary(req.files['bukti_upu'][0].buffer, 'panitia/bukti_upu')).secure_url;
-        if (req.files['pas_foto']) pas_foto_url = (await uploadToCloudinary(req.files['pas_foto'][0].buffer, 'panitia/pas_foto')).secure_url;
-        if (req.files['bukti_pembayaran']) bukti_pembayaran_url = (await uploadToCloudinary(req.files['bukti_pembayaran'][0].buffer, 'panitia/bukti_pembayaran')).secure_url;
-        if (req.files['foto_ktm']) foto_ktm_url = (await uploadToCloudinary(req.files['foto_ktm'][0].buffer, 'panitia/foto_ktm')).secure_url;
+        const files = req.files || {};
+
+        const uploadTasks = [
+            files['bukti_hmps_if'] ? uploadToCloudinary(files['bukti_hmps_if'][0].buffer, 'panitia/bukti_hmps_if') : Promise.resolve(null),
+            files['bukti_upu'] ? uploadToCloudinary(files['bukti_upu'][0].buffer, 'panitia/bukti_upu') : Promise.resolve(null),
+            files['pas_foto'] ? uploadToCloudinary(files['pas_foto'][0].buffer, 'panitia/pas_foto') : Promise.resolve(null),
+            files['bukti_pembayaran'] ? uploadToCloudinary(files['bukti_pembayaran'][0].buffer, 'panitia/bukti_pembayaran') : Promise.resolve(null),
+            files['foto_ktm'] ? uploadToCloudinary(files['foto_ktm'][0].buffer, 'panitia/foto_ktm') : Promise.resolve(null)
+        ];
+
+        const [
+            bukti_hmps_if_res,
+            bukti_upu_res,
+            pas_foto_res,
+            bukti_pembayaran_res,
+            foto_ktm_res
+        ] = await Promise.all(uploadTasks);
+
+        const bukti_hmps_if_url = bukti_hmps_if_res ? bukti_hmps_if_res.secure_url : '';
+        const bukti_upu_url = bukti_upu_res ? bukti_upu_res.secure_url : '';
+        const pas_foto_url = pas_foto_res ? pas_foto_res.secure_url : '';
+        const bukti_pembayaran_url = bukti_pembayaran_res ? bukti_pembayaran_res.secure_url : '';
+        const foto_ktm_url = foto_ktm_res ? foto_ktm_res.secure_url : '';
+
         const docRef = await addDoc(collection(db, 'panitia'), { ...formData, bukti_hmps_if_url, bukti_upu_url, pas_foto_url, bukti_pembayaran_url, foto_ktm_url, createdAt: new Date().toISOString() });
         res.json({ success: true, message: 'Pendaftaran panitia berhasil', id: docRef.id });
     } catch (e) { res.status(500).json({ success: false, message: e.message }); }

@@ -69,34 +69,30 @@ router.post('/register', upload.fields([
 ]), async (req, res) => {
     try {
         const formData = req.body; // All text data
+        const files = req.files || {};
 
-        // Upload files to Cloudinary
-        let bukti_hmps_if_url = '';
-        let bukti_upu_url = '';
-        let pas_foto_url = '';
-        let bukti_pembayaran_url = '';
-        let foto_ktm_url = '';
+        // Upload files to Cloudinary in parallel
+        const uploadTasks = [
+            files['bukti_hmps_if'] ? uploadToCloudinary(files['bukti_hmps_if'][0].buffer, 'pendaftaran/bukti_hmps_if') : Promise.resolve(null),
+            files['bukti_upu'] ? uploadToCloudinary(files['bukti_upu'][0].buffer, 'pendaftaran/bukti_upu') : Promise.resolve(null),
+            files['pas_foto'] ? uploadToCloudinary(files['pas_foto'][0].buffer, 'pendaftaran/pas_foto') : Promise.resolve(null),
+            files['bukti_pembayaran'] ? uploadToCloudinary(files['bukti_pembayaran'][0].buffer, 'pendaftaran/bukti_pembayaran') : Promise.resolve(null),
+            files['foto_ktm'] ? uploadToCloudinary(files['foto_ktm'][0].buffer, 'pendaftaran/foto_ktm') : Promise.resolve(null)
+        ];
 
-        if (req.files['bukti_hmps_if']) {
-            const result = await uploadToCloudinary(req.files['bukti_hmps_if'][0].buffer, 'pendaftaran/bukti_hmps_if');
-            bukti_hmps_if_url = result.secure_url;
-        }
-        if (req.files['bukti_upu']) {
-            const result = await uploadToCloudinary(req.files['bukti_upu'][0].buffer, 'pendaftaran/bukti_upu');
-            bukti_upu_url = result.secure_url;
-        }
-        if (req.files['pas_foto']) {
-            const result = await uploadToCloudinary(req.files['pas_foto'][0].buffer, 'pendaftaran/pas_foto');
-            pas_foto_url = result.secure_url;
-        }
-        if (req.files['bukti_pembayaran']) {
-            const result = await uploadToCloudinary(req.files['bukti_pembayaran'][0].buffer, 'pendaftaran/bukti_pembayaran');
-            bukti_pembayaran_url = result.secure_url;
-        }
-        if (req.files['foto_ktm']) {
-            const result = await uploadToCloudinary(req.files['foto_ktm'][0].buffer, 'pendaftaran/foto_ktm');
-            foto_ktm_url = result.secure_url;
-        }
+        const [
+            bukti_hmps_if_res,
+            bukti_upu_res,
+            pas_foto_res,
+            bukti_pembayaran_res,
+            foto_ktm_res
+        ] = await Promise.all(uploadTasks);
+
+        const bukti_hmps_if_url = bukti_hmps_if_res ? bukti_hmps_if_res.secure_url : '';
+        const bukti_upu_url = bukti_upu_res ? bukti_upu_res.secure_url : '';
+        const pas_foto_url = pas_foto_res ? pas_foto_res.secure_url : '';
+        const bukti_pembayaran_url = bukti_pembayaran_res ? bukti_pembayaran_res.secure_url : '';
+        const foto_ktm_url = foto_ktm_res ? foto_ktm_res.secure_url : '';
 
         // Save data to Firebase Firestore
         const docRef = await addDoc(collection(db, "pendaftar"), {
@@ -122,33 +118,35 @@ router.post('/register-panitia', upload.fields([
     { name: 'bukti_hmps_if', maxCount: 1 },
     { name: 'bukti_upu', maxCount: 1 },
     { name: 'pas_foto', maxCount: 1 },
-    { name: 'bukti_pembayaran', maxCount: 1 }
+    { name: 'bukti_pembayaran', maxCount: 1 },
+    { name: 'foto_ktm', maxCount: 1 }
 ]), async (req, res) => {
     try {
         const formData = req.body;
+        const files = req.files || {};
 
-        // Upload files to Cloudinary
-        let bukti_hmps_if_url = '';
-        let bukti_upu_url = '';
-        let pas_foto_url = '';
-        let bukti_pembayaran_url = '';
+        // Upload files to Cloudinary in parallel
+        const uploadTasks = [
+            files['bukti_hmps_if'] ? uploadToCloudinary(files['bukti_hmps_if'][0].buffer, 'pendaftaran_panitia/bukti_hmps_if') : Promise.resolve(null),
+            files['bukti_upu'] ? uploadToCloudinary(files['bukti_upu'][0].buffer, 'pendaftaran_panitia/bukti_upu') : Promise.resolve(null),
+            files['pas_foto'] ? uploadToCloudinary(files['pas_foto'][0].buffer, 'pendaftaran_panitia/pas_foto') : Promise.resolve(null),
+            files['bukti_pembayaran'] ? uploadToCloudinary(files['bukti_pembayaran'][0].buffer, 'pendaftaran_panitia/bukti_pembayaran') : Promise.resolve(null),
+            files['foto_ktm'] ? uploadToCloudinary(files['foto_ktm'][0].buffer, 'pendaftaran_panitia/foto_ktm') : Promise.resolve(null)
+        ];
 
-        if (req.files['bukti_hmps_if']) {
-            const result = await uploadToCloudinary(req.files['bukti_hmps_if'][0].buffer, 'pendaftaran_panitia/bukti_hmps_if');
-            bukti_hmps_if_url = result.secure_url;
-        }
-        if (req.files['bukti_upu']) {
-            const result = await uploadToCloudinary(req.files['bukti_upu'][0].buffer, 'pendaftaran_panitia/bukti_upu');
-            bukti_upu_url = result.secure_url;
-        }
-        if (req.files['pas_foto']) {
-            const result = await uploadToCloudinary(req.files['pas_foto'][0].buffer, 'pendaftaran_panitia/pas_foto');
-            pas_foto_url = result.secure_url;
-        }
-        if (req.files['bukti_pembayaran']) {
-            const result = await uploadToCloudinary(req.files['bukti_pembayaran'][0].buffer, 'pendaftaran_panitia/bukti_pembayaran');
-            bukti_pembayaran_url = result.secure_url;
-        }
+        const [
+            bukti_hmps_if_res,
+            bukti_upu_res,
+            pas_foto_res,
+            bukti_pembayaran_res,
+            foto_ktm_res
+        ] = await Promise.all(uploadTasks);
+
+        const bukti_hmps_if_url = bukti_hmps_if_res ? bukti_hmps_if_res.secure_url : '';
+        const bukti_upu_url = bukti_upu_res ? bukti_upu_res.secure_url : '';
+        const pas_foto_url = pas_foto_res ? pas_foto_res.secure_url : '';
+        const bukti_pembayaran_url = bukti_pembayaran_res ? bukti_pembayaran_res.secure_url : '';
+        const foto_ktm_url = foto_ktm_res ? foto_ktm_res.secure_url : '';
 
         // Save data to Firebase Firestore 'panitia' collection
         const docRef = await addDoc(collection(db, "panitia"), {
@@ -157,6 +155,7 @@ router.post('/register-panitia', upload.fields([
             bukti_upu_url,
             pas_foto_url,
             bukti_pembayaran_url,
+            foto_ktm_url,
             createdAt: new Date().toISOString()
         });
 
@@ -177,29 +176,27 @@ router.post('/register-izin', upload.fields([
 ]), async (req, res) => {
     try {
         const formData = req.body;
+        const files = req.files || {};
 
-        // Upload files to Cloudinary
-        let foto_ktm_url = '';
-        let foto_ktp_mahasiswa_url = '';
-        let foto_ktp_ortu_url = '';
-        let foto_kk_url = '';
+        // Upload files to Cloudinary in parallel
+        const uploadTasks = [
+            files['foto_ktm'] ? uploadToCloudinary(files['foto_ktm'][0].buffer, 'surat_izin/foto_ktm') : Promise.resolve(null),
+            files['foto_ktp_mahasiswa'] ? uploadToCloudinary(files['foto_ktp_mahasiswa'][0].buffer, 'surat_izin/foto_ktp_mahasiswa') : Promise.resolve(null),
+            files['foto_ktp_ortu'] ? uploadToCloudinary(files['foto_ktp_ortu'][0].buffer, 'surat_izin/foto_ktp_ortu') : Promise.resolve(null),
+            files['foto_kk'] ? uploadToCloudinary(files['foto_kk'][0].buffer, 'surat_izin/foto_kk') : Promise.resolve(null)
+        ];
 
-        if (req.files['foto_ktm']) {
-            const result = await uploadToCloudinary(req.files['foto_ktm'][0].buffer, 'surat_izin/foto_ktm');
-            foto_ktm_url = result.secure_url;
-        }
-        if (req.files['foto_ktp_mahasiswa']) {
-            const result = await uploadToCloudinary(req.files['foto_ktp_mahasiswa'][0].buffer, 'surat_izin/foto_ktp_mahasiswa');
-            foto_ktp_mahasiswa_url = result.secure_url;
-        }
-        if (req.files['foto_ktp_ortu']) {
-            const result = await uploadToCloudinary(req.files['foto_ktp_ortu'][0].buffer, 'surat_izin/foto_ktp_ortu');
-            foto_ktp_ortu_url = result.secure_url;
-        }
-        if (req.files['foto_kk']) {
-            const result = await uploadToCloudinary(req.files['foto_kk'][0].buffer, 'surat_izin/foto_kk');
-            foto_kk_url = result.secure_url;
-        }
+        const [
+            foto_ktm_res,
+            foto_ktp_mahasiswa_res,
+            foto_ktp_ortu_res,
+            foto_kk_res
+        ] = await Promise.all(uploadTasks);
+
+        const foto_ktm_url = foto_ktm_res ? foto_ktm_res.secure_url : '';
+        const foto_ktp_mahasiswa_url = foto_ktp_mahasiswa_res ? foto_ktp_mahasiswa_res.secure_url : '';
+        const foto_ktp_ortu_url = foto_ktp_ortu_res ? foto_ktp_ortu_res.secure_url : '';
+        const foto_kk_url = foto_kk_res ? foto_kk_res.secure_url : '';
 
         // Save data to Firebase Firestore 'surat_izin' collection
         const docRef = await addDoc(collection(db, "surat_izin"), {

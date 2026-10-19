@@ -102,4 +102,75 @@ document.addEventListener('dragstart', function(e) { e.preventDefault(); });
             setTimeout(function() { toast.remove(); }, 300);
         }, 3500);
     };
+
+    // ==========================================
+    // UTILITY: Client-Side Image Compression
+    // ==========================================
+    window.compressImageFile = function(file, maxWidth, maxHeight, quality) {
+        maxWidth = maxWidth || 1280;
+        maxHeight = maxHeight || 1280;
+        quality = quality || 0.75;
+
+        if (!file || !file.type || !file.type.startsWith('image/')) {
+            return Promise.resolve(file);
+        }
+
+        return new Promise(function(resolve) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var img = new Image();
+                img.onload = function() {
+                    var width = img.width;
+                    var height = img.height;
+
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        } else {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
+
+                    var canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(function(blob) {
+                        if (!blob) {
+                            resolve(file);
+                            return;
+                        }
+                        var cleanName = (file.name || 'foto').replace(/\.[^/.]+$/, "") + ".jpg";
+                        try {
+                            var compressedFile = new File([blob], cleanName, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            if (compressedFile.size < file.size) {
+                                resolve(compressedFile);
+                            } else {
+                                resolve(file);
+                            }
+                        } catch (e) {
+                            blob.name = cleanName;
+                            resolve(blob);
+                        }
+                    }, 'image/jpeg', quality);
+                };
+                img.onerror = function() {
+                    resolve(file);
+                };
+                img.src = event.target.result;
+            };
+            reader.onerror = function() {
+                resolve(file);
+            };
+            reader.readAsDataURL(file);
+        });
+    };
 }());
+
